@@ -1,16 +1,15 @@
-// window.onpopstate = function(event) {
-//     if (event.state.hidden) {
-//         document.getElementById('schedule').display = 'inherit'
-//     }
-// }
-
 // handle links to speeches
 $(function() {
     $('td a').click(function() {
-        $('table').hide()
-        var file = this.id + ".json"
-        var stateObj = {hidden: true}
-        history.pushState(stateObj, "Speech: " + this.id, "speech/" + file)
-        
+        $('table').hide();
+        var file = this.id + ".json";
+        if (window.history && window.history.pushState) {
+            var title = "Speech: " + this.id;
+            var path = "speech_" + this.id + ".html";
+            alert("Supported! " + title + " " + path);
+            window.history.pushState({
+                hidden: true
+            }, title, path);
+        }
     });
 });
