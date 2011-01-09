@@ -4,7 +4,6 @@ $(function() {
         // Support for js history API
         if (window.history && window.history.pushState) {
             e.preventDefault()
-            $('table').hide();
             var filename = this.id + ".json";
             var state = { "hidden": true };
             var title = "Speech: " + this.id;
@@ -27,14 +26,17 @@ $(function() {
                     $('#res').find('#details').html(data.day + 
                                                     ", " + data.hour +
                                                     " @ " + data.room);
-                    $('#res').fadeIn('slow');
+                    $('table').fadeOut('fast', function() {
+                        $('#res').fadeIn('fast');
+                    });
                 }
             });
 
             // handle back button
             $(window).bind("popstate", function() {
-                $('div#res').hide();
-                $('table').fadeIn('slow');
+                $('div#res').fadeOut('fast', function() {
+                    $('table').fadeIn('slow');
+                });
             });
         }
     });
