@@ -38,3 +38,7 @@ td a.user {
 td a.developer {
     background-color: #BDBDFF;
 }
+
+div#res {
+    display: none;
+}
