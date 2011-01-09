@@ -1,5 +1,5 @@
 html {
-    width: 600px;
+    width: 800px;
     text-align: center;
     margin: 0 auto;
     color: #444444;
@@ -13,18 +13,21 @@ table {
 }
 
 thead tr {
-    text-align: center;
     border-bottom: 1px solid #444444;
     margin: 0;
 }
 
 th.room {
-    width: 12em;
+    width: 300px;
     padding-right: 1em;
 }
 
+th {
+    font-size: 1.8em;
+    letter-spacing: 0.1em;
+}
+
 th.hour, td.hour {
-    text-align: center;
     padding-right: 2em;
 }
 
