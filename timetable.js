@@ -12,7 +12,6 @@ $(function() {
 
             // load new data for selection
             var path = filename;
-            alert(path);
             $.ajax({
                 type: 'GET',
                 url: path,
@@ -22,15 +21,15 @@ $(function() {
                     alert(status + " " + error);
                 },
                 success: function(data) {
-                    var res = "<ul";
-                    for (var p in data) {
-                        res = res.concat("<li>", data[p], "</li>");
-                    }
-                    res += "</ul>";
-                    $(res).appendTo('div#res');
+                    $('#res').find('#title').text(data.title);
+                    $('#res').find('#summary').text(data.summary);
+                    $('#res').find('#speaker').text(data.speaker);
+                    $('#res').find('#details').html(data.day + 
+                                                    ", " + data.hour +
+                                                    " @ " + data.room);
+                    $('#res').show();
                 }
             });
-            $('div#res').show();
 
             // handle back button
             $(window).bind("popstate", function() {
