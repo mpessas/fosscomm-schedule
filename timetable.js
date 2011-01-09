@@ -40,4 +40,11 @@ $(function() {
             });
         }
     });
+
+    // Animate o mouseover
+    $('td').hover(function() {
+        $(this).animate({fontSize: '+=5px'}, 200);
+    }, function() {
+        $(this).animate({fontSize: '-=5px'}, 200);
+    });
 });
