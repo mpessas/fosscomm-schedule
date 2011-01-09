@@ -4,12 +4,9 @@ $(function() {
         $('table').hide();
         var file = this.id + ".json";
         if (window.history && window.history.pushState) {
+            var state = { "hidden": true };
             var title = "Speech: " + this.id;
-            var path = "speech_" + this.id + ".html";
-            alert("Supported! " + title + " " + path);
-            window.history.pushState({
-                hidden: true
-            }, title, path);
+            window.history.pushState(state, title);
         }
     });
 });
