@@ -1,15 +1,32 @@
 html {
-    width: 800px;
+    width: 1000px;
     text-align: center;
     margin: 0 auto;
     color: #444444;
 }
 
+#schedules {
+    -moz-column-count: 2;
+    -moz-column-gap: 5em;
+    -moz-column-rule: 1px solid #444444;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 5em;
+    -webkit-column-rule: 1px solid #444444;
+    column-count: 2;
+    column-gap: 5em;
+    column-rule: 1px solid #444444;
+}
+
 table {
     border-collapse: collapse;
     text-align: left;
-    margin: 0;
+    margin: 2em 0 6em 0;
     padding: 0;
+}
+
+caption {
+    text-decoration: underline;
+    font-size: 1.2em;
 }
 
 thead tr {
@@ -17,26 +34,22 @@ thead tr {
     margin: 0;
 }
 
-th.room {
-    width: 300px;
-    padding-right: 1em;
-}
-
 th {
-    font-size: 1.8em;
+    font-size: 1.4em;
     letter-spacing: 0.1em;
 }
 
 th.hour, td.hour {
-    padding-right: 2em;
+    padding-right: 3em;
 }
 
-td a.user {
-    background-color: #FFD49E;
+th.speech {
+    width: 300px;
+    padding-right: 1em;
 }
 
-td a.developer {
-    background-color: #BDBDFF;
+th.speaker {
+    width: 200px;
 }
 
 div#res {

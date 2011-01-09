@@ -9,39 +9,40 @@
   </head>
   <body>
     <h1>Πρόγραμμα</h1>
-    <table class="schedule" id="schedule">
-      <thead>
-        <tr>
-          <th class="hour">Ώρα</th>
-          <th class="room">Αίθουσα Β1</th>
-          <th class="room">Αίθουσα Β4</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="hour">09:30 &#150; 10:00</td>
-          <td>Χαιρετισμός</td>
-          <td>&nbsp</td>
-        </tr>
-        <tr>
-          <td class="hour">10:00 &#150; 10:30</td>
-          <td>
-            <a href="speech1.html" class="user" id="speech1">
-              Ομιλία, <em>Ομιλητής</em>
-            </a>
-          </td>
-          <td>
-            <a href="speech2.html" class="developer" id="speech2">
-              Ομιλία, <em>Ομιλητής με μεγάλο όνομα</em>
-            </a>
-          </td>
-        </tr>
-        <tr class="template">
-          <td><span class="thour"></span></td>
-          <td><span class="tb1"></span></td>
-          <td><span class="tb2"></span></td>
-      </tbody>
-    </table>
+    <div id="schedules">
+      <table class="schedule" id="schedule_b1">
+        <caption>Αίθουσα Β1</caption>
+        <thead>
+          <tr>
+            <th class="hour">Ώρα</th>
+            <th class="speech">Ομιλία</th>
+            <th class="speaker">Ομιλητής</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="b1template">
+            <td><span class="tb1hour"></span></td>
+            <td><span class="tb1speech"></span></td>
+            <td><span class="tb1speaker"></span></td>
+        </tbody>
+      </table>
+      <table class="schedule" id="schedule_b4">
+        <caption>Αίθουσα Β4</caption>
+        <thead>
+          <tr>
+            <th class="hour">Ώρα</th>
+            <th class="speech">Ομιλία</th>
+            <th class="speaker">Ομιλητής</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="b4template">
+            <td><span class="tb4hour"></span></td>
+            <td><span class="tb4speech"></span></td>
+            <td><span class="tb4speaker"></span></td>
+        </tbody>
+      </table>
+    </div>
     <div id="res">
       <h2 id="title"></h2>
       <h3 id="speaker"></h3>
