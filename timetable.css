@@ -8,13 +8,10 @@ html {
 #schedules {
     -moz-column-count: 2;
     -moz-column-gap: 5em;
-    -moz-column-rule: 1px solid #444444;
     -webkit-column-count: 2;
     -webkit-column-gap: 5em;
-    -webkit-column-rule: 1px solid #444444;
     column-count: 2;
     column-gap: 5em;
-    column-rule: 1px solid #444444;
 }
 
 table {
