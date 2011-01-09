@@ -3,15 +3,16 @@ html {
     text-align: center;
     margin: 0 auto;
     color: #444444;
+    font-size: 12px;
 }
 
 #schedules {
     -moz-column-count: 2;
-    -moz-column-gap: 5em;
+    -moz-column-gap: 10em;
     -webkit-column-count: 2;
-    -webkit-column-gap: 5em;
+    -webkit-column-gap: 10em;
     column-count: 2;
-    column-gap: 5em;
+    column-gap: 10em;
 }
 
 table {
@@ -23,7 +24,8 @@ table {
 
 caption {
     text-decoration: underline;
-    font-size: 1.2em;
+    font-size: 1.6em;
+    font-weight: bold;
 }
 
 thead tr {
@@ -41,7 +43,7 @@ th.hour, td.hour {
 }
 
 th.speech {
-    width: 300px;
+    width: 20em;
     padding-right: 1em;
 }
 
