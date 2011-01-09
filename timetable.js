@@ -27,14 +27,14 @@ $(function() {
                     $('#res').find('#details').html(data.day + 
                                                     ", " + data.hour +
                                                     " @ " + data.room);
-                    $('#res').show();
+                    $('#res').fadeIn('slow');
                 }
             });
 
             // handle back button
             $(window).bind("popstate", function() {
-                $('table').show();
                 $('div#res').hide();
+                $('table').fadeIn('slow');
             });
         }
     });
