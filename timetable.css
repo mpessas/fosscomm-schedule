@@ -1,9 +1,22 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+
+header {
+    display: block;
+}
+
 html {
     width: 1000px;
     text-align: center;
     margin: 0 auto;
     color: #444444;
     font-size: 12px;
+}
+
+header h1 {
+    font-size: 3em;
+    font-family: 'Droid Serif', serif;
+    font-weight: 800;
+    text-shadow: 8px 8px 8px #ddd;
 }
 
 #schedules {
