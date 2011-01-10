@@ -18,7 +18,7 @@ $(function() {
     // Fetch data to begin with
     $.ajax({
         type: 'GET',
-        url: 'fetch_data.json',
+        url: '/api/schedule/fetch_data.json',
         timeout: 10000,
         dataType: 'json',
         error: function(xhr, status, error) {
@@ -48,7 +48,7 @@ $(function() {
             window.history.pushState(state, title, url);
 
             // load new data for selection
-            var path = filename;
+            var path = "/api/schedule/" + filename;
             $.ajax({
                 type: 'GET',
                 url: path,
