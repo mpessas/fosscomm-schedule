@@ -44,7 +44,8 @@ $(function() {
             var filename = this.id + ".json";
             var state = { "hidden": true };
             var title = "Speech: " + this.id;
-            window.history.pushState(state, title);
+            var url = this.id + ".html";
+            window.history.pushState(state, title, url);
 
             // load new data for selection
             var path = filename;
