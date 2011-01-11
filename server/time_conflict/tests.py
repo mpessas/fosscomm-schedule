@@ -2,6 +2,7 @@
 
 import unittest
 from graph import EventNode
+from graph import NotReadyError
 
 
 class TestEventNode(unittest.TestCase):
@@ -22,6 +23,12 @@ class TestEventNode(unittest.TestCase):
     def test_wrong_attribute(self):
         with self.assertRaises(AttributeError):
             setattr(self.node.wrong_attr, False)
+
+    def test_save(self):
+        self.assertRaises(NotReadyError, self.node.save)
+        # for attr in self.attrs:
+        #     setattr(self.node, attr, "val")
+        # self.node.save()
 
 
 if __name__ == '__main__':

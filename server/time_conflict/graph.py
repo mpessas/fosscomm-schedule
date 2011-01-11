@@ -67,12 +67,15 @@ class EventNode(Node):
         """
         return all(self.__attrs.itervalues())
 
-    def ready_required(self, f):
+    def ready_required(f):
         def new_f(*args, **kwargs):
-            if self._is_ready():
-                f(args, kwargs)
+            if args[0]._is_ready():
+                f(*args, **kwargs)
             else:
                 raise NotReadyError
+        new_f.__name__ = f.__name__
+        new_f.__doc__ = f.__doc__
+        return new_f
     
     def __getattr__(self, name):
         """Allow access to fields of the event.
@@ -91,4 +94,9 @@ class EventNode(Node):
             raise AttributeError(name)
         else:
             self.__attrs[name] = value
+
+    @ready_required
+    def save(self):
+        """Save instance to storage."""
+        pass
         
