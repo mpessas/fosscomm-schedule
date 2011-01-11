@@ -10,14 +10,14 @@ class TestEventNode(unittest.TestCase):
         self.node = EventNode(3)
         self.attrs = self.node._EventNode__attrs.iterkeys()
 
-    def test_completion(self):
-        """Check that EventNode._is_complete returns True,
+    def test_ready(self):
+        """Check that EventNode._is_ready returns True,
         iff all fields are set.
         """
         for attr in self.attrs:
-            self.assertFalse(self.node._is_complete())
+            self.assertFalse(self.node._is_ready())
             setattr(self.node, attr, "val")
-        self.assertTrue(self.node._is_complete())
+        self.assertTrue(self.node._is_ready())
 
     def test_wrong_attribute(self):
         with self.assertRaises(AttributeError):

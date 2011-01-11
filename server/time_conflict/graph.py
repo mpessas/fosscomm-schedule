@@ -8,6 +8,7 @@ Two EventNodes conflict iff they share at least one TimeNode.
 """
 
 import collections
+from errors import NotReadyError
 
 class Node(object):
     """A node in the graph."""
@@ -58,13 +59,20 @@ class EventNode(Node):
             self.__attrs[key] = None
         self.__initialized = True
 
-    def _is_complete(self):
+    def _is_ready(self):
         """Check whether all attributes of the isntance are set.
 
         @returns True if all attributes are set
                  False else
         """
         return all(self.__attrs.itervalues())
+
+    def ready_required(self, f):
+        def new_f(*args, **kwargs):
+            if self._is_ready():
+                f(args, kwargs)
+            else:
+                raise NotReadyError
     
     def __getattr__(self, name):
         """Allow access to fields of the event.
