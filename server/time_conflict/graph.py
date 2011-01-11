@@ -68,8 +68,9 @@ class EventNode(Node):
         return all(self.__attrs.itervalues())
 
     def ready_required(f):
+        """Decorator to assert ready-ness of the instance."""
         def new_f(*args, **kwargs):
-            if args[0]._is_ready():
+            if args[0]._is_ready(): # args[0] is always self
                 f(*args, **kwargs)
             else:
                 raise NotReadyError
