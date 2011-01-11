@@ -29,3 +29,11 @@ class MongoStore(object):
     def get_mongo_id(self, mid):
         col = self._get_collection()
         return col.find_one({"_id": mid})
+
+    def get(self, name, value):
+        col = self._get_collection()
+        return col.find_one({name: value})
+
+    def get_all(self):
+        col = self._get_collection()
+        return (doc for doc in col.find())
