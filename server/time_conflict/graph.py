@@ -7,6 +7,8 @@ corresponding TimeNodes as neighbours.
 Two EventNodes conflict iff they share at least one TimeNode.
 """
 
+import collections
+
 class Node(object):
     """A node in the graph."""
 
@@ -31,3 +33,54 @@ class Node(object):
         @param node the node to add to neighbours
         """
         self.neighbours.update(node)
+
+
+class TimeNode(Node):
+    """A node for time ticks."""
+
+    def __init__(self, num, tick):
+        super(TimeNode, self).__init__(num)
+        self.__tick = tick
+
+    @property
+    def tick(self):
+        return self.__tick
+
+
+class EventNode(Node):
+    """A node for the events."""
+
+    def __init__(self, num):
+        super(EventNode, self).__init__(num)
+        self.__attrs = {}
+        for key in ('title', 'speaker', 'summary', 'filename',
+                    'time_start', 'time_end', 'day', 'room', 'conflicts_with'):
+            self.__attrs[key] = None
+        self.__initialized = True
+
+    def _is_complete(self):
+        """Check whether all attributes of the isntance are set.
+
+        @returns True if all attributes are set
+                 False else
+        """
+        return all(self.__attrs.itervalues())
+    
+    def __getattr__(self, name):
+        """Allow access to fields of the event.
+
+        @return the field, if it exists
+                None, else
+        """
+        if not name in self.__attrs.iterkeys():
+            raise AttributeError(name)
+        return self.__attrs[name]
+
+    def __setattr__(self, name, value):
+        if not '_EventNode__initialized' in self.__dict__:
+            super(EventNode, self).__setattr__(name, value)
+        elif not name in self.__attrs.iterkeys():
+            raise AttributeError(name)
+        else:
+            self.__attrs[name] = value
+        
