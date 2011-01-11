@@ -15,10 +15,12 @@ class ObjClass(object):
 class TestMongoStore(unittest.TestCase):
 
     def setUp(self):
+        self.dbname = "test_fosscomm"
         self.store = MongoStore()
-        self.store.connect("test_fosscomm")
+        self.store.connect(self.dbname)
 
     def tearDown(self):
+        self.store._connection.drop_database(self.dbname)
         self.store.disconnect()
 
     def test_set(self):
