@@ -27,6 +27,14 @@ class TestMongoStore(unittest.TestCase):
         obj = ObjClass(1, 2)
         self.assertTrue(self.store.set(obj))
 
+    def test_get(self):
+        obj = ObjClass(1, 2)
+        doc = obj.as_doc()
+        mid = self.store.set(obj)
+        res = self.store.get_mongo_id(mid)
+        self.assertEquals(res['x'], doc['x'])
+        self.assertEquals(res['y'], doc['y'])
+
 
 if __name__ == '__main__':
     unittest.main()
