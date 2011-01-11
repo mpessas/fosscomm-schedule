@@ -22,9 +22,9 @@ class MongoStore(object):
         """Setup indices"""
         pass                    # TODO
 
-    def set(self, obj):
+    def set(self, doc):
         col = self._get_collection()
-        return col.insert(obj.as_doc())
+        return col.insert(doc)
 
     def get_mongo_id(self, mid):
         col = self._get_collection()

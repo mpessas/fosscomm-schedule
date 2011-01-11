@@ -25,12 +25,12 @@ class TestMongoStore(unittest.TestCase):
 
     def test_set(self):
         obj = ObjClass(1, 2)
-        self.assertTrue(self.store.set(obj))
+        self.assertTrue(self.store.set(obj.as_doc()))
 
     def test_get(self):
         obj = ObjClass(1, 2)
         doc = obj.as_doc()
-        mid = self.store.set(obj)
+        mid = self.store.set(obj.as_doc())
         res = self.store.get_mongo_id(mid)
         self.assertEquals(res['x'], doc['x'])
         self.assertEquals(res['y'], doc['y'])
