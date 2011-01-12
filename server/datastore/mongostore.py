@@ -31,9 +31,23 @@ class MongoStore(object):
         return col.find_one({"_id": mid})
 
     def get(self, name, value):
+        """Get one item only"""
         col = self._get_collection()
         return col.find_one({name: value})
 
     def get_all(self):
+        """Get all items.
+
+        Returns a generator.
+        """
         col = self._get_collection()
         return (doc for doc in col.find())
+
+    def filter(self, **kwargs):
+        """Get items that satisfy the given criteria.
+
+        Returns a generator.
+        """
+        col = self._get_collection()
+        return (doc for doc in col.find(kwargs))
+            
