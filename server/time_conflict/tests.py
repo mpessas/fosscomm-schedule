@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import unittest
@@ -10,6 +11,14 @@ class TestEventNode(unittest.TestCase):
     def setUp(self):
         self.node = EventNode(3)
         self.attrs = self.node._EventNode__attrs.iterkeys()
+
+    def test_initializer(self):
+        node = EventNode(3, title=u"title", summary=u"summary")
+        self.assertEquals(node.title, u"title")
+        self.assertEquals(node._id, 3)
+        self.assertEquals(node.summary, u"summary")
+        self.assertTrue(node.speaker is None)
+        self.assertRaises(AttributeError, EventNode, 3, t=u"title")
 
     def test_ready(self):
         """Check that EventNode._is_ready returns True,

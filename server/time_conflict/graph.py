@@ -15,7 +15,7 @@ class Node(object):
 
     def __init__(self, num):
         """Initializer."""
-        self.__id = num
+        self._id = num
         self.neighbours = set()
 
     def has_neighbour(self, node):
@@ -51,12 +51,19 @@ class TimeNode(Node):
 class EventNode(Node):
     """A node for the events."""
 
-    def __init__(self, num):
+    def __init__(self, num, **kwargs):
         super(EventNode, self).__init__(num)
         self.__attrs = {}
         for key in ('title', 'speaker', 'summary', 'filename',
-                    'time_start', 'time_end', 'day', 'room', 'conflicts_with'):
-            self.__attrs[key] = None
+                    'time_start', 'time_end', 'day', 'room',
+                    'conflicts_with'):
+            self.__attrs[key] = kwargs.get(key)
+            try:
+                del kwargs[key]
+            except KeyError:
+                pass
+        if kwargs:
+            raise AttributeError(unicode(kwargs))
         self.__initialized = True
 
     def _is_ready(self):
