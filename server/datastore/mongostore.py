@@ -2,6 +2,7 @@
 
 import pymongo
 
+
 class MongoStore(object):
 
     def __init__(self):
@@ -50,4 +51,3 @@ class MongoStore(object):
         """
         col = self._get_collection()
         return (doc for doc in col.find(kwargs))
-            

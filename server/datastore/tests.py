@@ -3,6 +3,7 @@
 import unittest
 from mongostore import MongoStore
 
+
 class ObjClass(object):
     def __init__(self, x, y):
         self.x = x
@@ -76,8 +77,6 @@ class TestMongoStore(unittest.TestCase):
         self.assertEquals(res[0]['y'], 4)
         res = [x for x in self.store.filter(x=2, y=6)]
         self.assertEquals(len(res), 0)
-        
-        
 
 
 if __name__ == '__main__':
