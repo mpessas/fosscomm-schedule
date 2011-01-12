@@ -9,3 +9,4 @@
 ;;; End:
 
 * Datastore
+  - [ ] mod_wsgi and pymongo compatibility
