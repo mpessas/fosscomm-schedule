@@ -11,3 +11,4 @@
 
 * Datastore
   - [ ] mod_wsgi and pymongo compatibility
+  - [ ] Add context manager
