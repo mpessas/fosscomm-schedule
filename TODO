@@ -2,13 +2,14 @@
   - [ ] Add sphinx documentation
   - [ ] Write tests
   - [ ] PEP8 check
-  - [ ] Pylint check
- 
+  - [ ] Pylint check 
+  - [ ] Move to separate package
+  - [ ] Move Event class out of EventNode
+
+* TODO Datastore
+  - [ ] mod_wsgi and pymongo compatibility
+  - [ ] Add context manager
+
 ;;; Local Variables:
 ;;; mode: org
 ;;; End:
-  - [ ] Move to separate package
-
-* Datastore
-  - [ ] mod_wsgi and pymongo compatibility
-  - [ ] Add context manager
