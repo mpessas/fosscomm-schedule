@@ -9,6 +9,7 @@ Two EventNodes conflict iff they share at least one TimeNode.
 
 import collections
 from errors import NotReadyError
+import datastore
 
 class Node(object):
     """A node in the graph."""
@@ -54,6 +55,7 @@ class EventNode(Node):
     def __init__(self, num, **kwargs):
         super(EventNode, self).__init__(num)
         self.__attrs = {}
+        self._optional_attrs = ('filename', 'conflicts_with', )
         for key in ('title', 'speaker', 'summary', 'filename',
                     'time_start', 'time_end', 'day', 'room',
                     'conflicts_with'):
@@ -62,6 +64,8 @@ class EventNode(Node):
                 del kwargs[key]
             except KeyError:
                 pass
+        if 'id' in kwargs:
+            del kwargs['id']
         if kwargs:
             raise AttributeError(unicode(kwargs))
         self.__initialized = True
@@ -72,7 +76,8 @@ class EventNode(Node):
         @returns True if all attributes are set
                  False else
         """
-        return all(self.__attrs.itervalues())
+        return all(val for (key, val) in self.__attrs.iteritems()
+                   if key not in self._optional_attrs)
 
     def ready_required(f):
         """Decorator to assert ready-ness of the instance."""
@@ -106,5 +111,8 @@ class EventNode(Node):
     @ready_required
     def save(self):
         """Save instance to storage."""
-        pass
+        store = datastore.DataStore()
+        store.connect()
+        store.setup()
+        store.put(self.as_doc())
         

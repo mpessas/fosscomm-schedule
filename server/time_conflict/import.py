@@ -4,6 +4,7 @@
 import sys
 import argparse
 import json
+import graph
 
 def parse_cmd_options(argv):
     parser = argparse.ArgumentParser(
@@ -24,9 +25,7 @@ def main(argv=None):
         events = json.load(f)
     event_node_list = []
     for e in events:
-        event_node_list.append(EventNode(e['id']))
-        event_node_list[-1].title = e['title']
-        event_node_list[-1]
+        event_node_list.append(graph.EventNode(e['id'], **e))
 
 if __name__ == '__main__':
     sys.exit(main())
