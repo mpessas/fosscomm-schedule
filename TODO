@@ -1,8 +1,11 @@
-* TODO Add sphinx documentation
-* TODO Wtite tests
-* TODO PEP8 check
-* TODO Pylint check
+* TODO Time-conflict
+  - [ ] Add sphinx documentation
+  - [ ] Write tests
+  - [ ] PEP8 check
+  - [ ] Pylint check
  
 ;;; Local Variables:
 ;;; mode: org
 ;;; End:
+
+* Datastore
