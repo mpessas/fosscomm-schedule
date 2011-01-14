@@ -41,6 +41,9 @@ class Node(object):
         """
         self.neighbours.update(node)
 
+    def __unicode__(self):
+        return unicode("<TimeNode %s>" % self._id)
+
 
 class TimeNode(Node):
     """A node for time ticks."""
@@ -134,5 +137,6 @@ def create_time_tree(time_start, time_end):
     num_ticks = (end.seconds - start.seconds) / 60 / INTERVAL
     nodes = []
     for tick in xrange(num_ticks):
-        nodes.append(TimeNode(tick, tick))
+        nodes.append(TimeNode(tick))
+        print nodes[-1]
     
