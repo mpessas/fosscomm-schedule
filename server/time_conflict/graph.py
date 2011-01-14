@@ -7,9 +7,14 @@ corresponding TimeNodes as neighbours.
 Two EventNodes conflict iff they share at least one TimeNode.
 """
 
+import datetime
 import collections
 from errors import NotReadyError
 import datastore
+
+
+INTERVAL=30
+
 
 class Node(object):
     """A node in the graph."""
@@ -115,4 +120,20 @@ class EventNode(Node):
         store.connect()
         store.setup()
         store.put(self.as_doc())
-        
+
+
+def create_graph(events):
+    events.sort(key=eventlist.time_start)
+    time_nodes = graph.create_time_tree(events[0].time_start, events[-1].time_start)
+    
+
+def create_time_tree(time_start, time_end):
+    (hours, minutes) = time_start.split(':')
+    start = datetime.timedelta(hours=hours, minutes=minutes)
+    (hours, minutes) = time_end.split(':')
+    end = datetime.timedelta(hours=hours, minutes=minutes)
+    num_ticks = (end.seconds - start.seconds) / 60 / INTERVAL
+    nodes = []
+    for tick in xrange(num_ticks):
+        nodes.append(TimeNode(tick, tick))
+    
