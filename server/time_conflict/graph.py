@@ -9,12 +9,13 @@ Two EventNodes conflict iff they share at least one TimeNode.
 
 import datetime
 import collections
+import logging
 from errors import NotReadyError
 import datastore
 
 
 INTERVAL = 30
-
+_log = logging.getLogger('')
 
 class Node(object):
     """A node in the graph."""
@@ -129,7 +130,9 @@ class EventNode(Node):
 
 def create_graph(events):
     events.sort(key=EventNode.starts)
-    time_nodes = create_time_tree(events[0].time_start, events[-1].time_end)
+    ticks = create_time_tree(events[0].time_start, events[-1].time_end)
+    for e in events:
+        e.starts
 
 
 def create_time_tree(time_start, time_end):
@@ -138,7 +141,7 @@ def create_time_tree(time_start, time_end):
     (hours, minutes) = time_end.split(':')
     end = datetime.timedelta(hours=int(hours), minutes=int(minutes))
     num_ticks = (end.seconds - start.seconds) / 60 / INTERVAL
-    print num_ticks
+    _log.info("Number of ticks: %s" % num_ticks)
     nodes = []
     for tick in xrange(num_ticks):
         nodes.append(TimeNode(tick))

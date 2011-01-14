@@ -3,8 +3,10 @@
 
 import sys
 import argparse
+import logging
 import json
 import graph
+
 
 def parse_cmd_options(argv):
     parser = argparse.ArgumentParser(
@@ -13,8 +15,12 @@ def parse_cmd_options(argv):
     parser.add_argument(
         'filename', help='file with the events in json format'
     )
+    parser.add_argument(
+        '-v', '--verbose', action='store_true', help=u'verbose output'
+    )
     args = parser.parse_args(argv)
     return args
+
 
 def get_events_from_file(filename):
     with open(filename) as f:
@@ -24,13 +30,23 @@ def get_events_from_file(filename):
         event_node_list.append(graph.EventNode(e['id'], **e))
     return event_node_list
 
+
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     args = parse_cmd_options(argv)
+
+    logger = logging.getLogger('')
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
+    handler = logging.StreamHandler()
+    logger.addHandler(handler)
+
     filename = args.filename
+    logger.debug("Filename: %s" % filename)
     eventlist = get_events_from_file(filename)
-    graph.create_graph([e for e in eventlist if e.day==u"Σάββατο"])
+    logger.info("%s events found" % len(eventlist))
+    graph.create_graph([e for e in eventlist if e.day == u"Σάββατο"])
 
 if __name__ == '__main__':
     sys.exit(main())
