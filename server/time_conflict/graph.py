@@ -13,7 +13,7 @@ from errors import NotReadyError
 import datastore
 
 
-INTERVAL=30
+INTERVAL = 30
 
 
 class Node(object):
@@ -89,14 +89,14 @@ class EventNode(Node):
     def ready_required(f):
         """Decorator to assert ready-ness of the instance."""
         def new_f(*args, **kwargs):
-            if args[0]._is_ready(): # args[0] is always self
+            if args[0]._is_ready():  # args[0] is always self
                 f(*args, **kwargs)
             else:
                 raise NotReadyError
         new_f.__name__ = f.__name__
         new_f.__doc__ = f.__doc__
         return new_f
-    
+
     def __getattr__(self, name):
         """Allow access to fields of the event.
 
@@ -123,20 +123,23 @@ class EventNode(Node):
         store.setup()
         store.put(self.as_doc())
 
+    def starts(self):
+        return getattr(self, 'time_start')
+
 
 def create_graph(events):
-    events.sort(key=eventlist.time_start)
-    time_nodes = graph.create_time_tree(events[0].time_start, events[-1].time_start)
-    
+    events.sort(key=EventNode.starts)
+    time_nodes = create_time_tree(events[0].time_start, events[-1].time_end)
+
 
 def create_time_tree(time_start, time_end):
     (hours, minutes) = time_start.split(':')
-    start = datetime.timedelta(hours=hours, minutes=minutes)
+    start = datetime.timedelta(hours=int(hours), minutes=int(minutes))
     (hours, minutes) = time_end.split(':')
-    end = datetime.timedelta(hours=hours, minutes=minutes)
+    end = datetime.timedelta(hours=int(hours), minutes=int(minutes))
     num_ticks = (end.seconds - start.seconds) / 60 / INTERVAL
+    print num_ticks
     nodes = []
     for tick in xrange(num_ticks):
         nodes.append(TimeNode(tick))
-        print nodes[-1]
-    
+    return nodes
