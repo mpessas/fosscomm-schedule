@@ -45,13 +45,12 @@ class Node(object):
 class TimeNode(Node):
     """A node for time ticks."""
 
-    def __init__(self, num, tick):
+    def __init__(self, num):
         super(TimeNode, self).__init__(num)
-        self.__tick = tick
 
     @property
     def tick(self):
-        return self.__tick
+        return self._id
 
 
 class EventNode(Node):
