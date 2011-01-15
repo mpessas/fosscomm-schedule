@@ -51,10 +51,12 @@ def main(argv=None):
     logger.debug("Filename: %s" % filename)
     eventlist = get_events_from_file(filename)
     logger.info("%s events found" % len(eventlist))
-    events = graph.create_graph([e for e in eventlist if e.day == u"Σάββατο"])
-    graph.find_conflicts(events)
-    for e in events:
-        print e.get_id(), e.conflicts_with
+    max_day = max(e.day for e in eventlist)
+    for day in xrange(1, max_day+1):
+        events = graph.create_graph([e for e in eventlist if e.day == day])
+        graph.find_conflicts(events)
+        for e in events:
+            print e.get_id(), e.conflicts_with
 
 if __name__ == '__main__':
     sys.exit(main())
