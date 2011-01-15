@@ -1,33 +1,37 @@
 import os
 os.chdir(os.path.dirname(__file__))
 
-from bottle import Bottle, static_file, response, debug
+from bottle import Bottle, response, debug
 app = Bottle()
 debug(True)
 import json
 
 from datastore import DataStore
 
+
 @app.get('/')
-def get_data():
+def get_events():
+    """Return a list of all events."""
     ds = DataStore()
     ds.connect()
     res = ds.get_all()
     ds.disconnect()
     doc = []
     for r in res:
-        del r['_id']
+        del r['_id']            # Don't reveal these
         doc.append(r)
     response.set_content_type('application/json')
     return json.dumps(doc)
 
+
 @app.get(':eid')
 def get_event(eid):
+    """Return the event with the specified id."""
     ds = DataStore()
     ds.connect()
     res = ds.get('id', int(eid))
     ds.disconnect()
-    del res['_id']
+    del res['_id']              # Don't reveal this
     return res
 
 application = app
