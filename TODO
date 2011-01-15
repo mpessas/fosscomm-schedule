@@ -9,9 +9,11 @@
   - [X] Move Event class out of EventNode
   - [X] Use numerics for days
 
+
 * TODO Datastore
   - [ ] mod_wsgi and pymongo compatibility
   - [ ] Add context manager
+  - [ ] Add indices
 
 * TODO UI
   - [ ] Save selection to cookie

@@ -155,6 +155,9 @@ class Event(object):
         store.setup()
         store.put(self.as_doc())
 
+    def as_doc(self):
+        return self.__attrs
+
     def starts(self):
         """Return the time the event starts."""
         return self.time_start

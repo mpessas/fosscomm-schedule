@@ -50,9 +50,9 @@ class TestEvent(unittest.TestCase):
 
     def test_save(self):
         self.assertRaises(NotReadyError, self.node.save)
-        # for attr in self.attrs:
-        #     setattr(self.node, attr, "val")
-        # self.node.save()
+        for attr in self.attrs:
+            setattr(self.node._wraps, attr, "val")
+        self.node.save()
 
 
 if __name__ == '__main__':
