@@ -8,7 +8,6 @@ Two EventNodes conflict iff they share at least one TimeNode.
 """
 
 import datetime
-import collections
 import logging
 from errors import NotReadyError
 import datastore
@@ -16,6 +15,7 @@ import datastore
 
 INTERVAL = 30
 _log = logging.getLogger('')
+
 
 class Node(object):
     """A node in the graph."""
@@ -43,6 +43,7 @@ class Node(object):
         self.neighbours.add(node)
 
     def get_id(self):
+        """Return the id of this node."""
         return self._id
 
     def __str__(self):
@@ -132,15 +133,19 @@ class EventNode(Node):
 
     def starts(self):
         """Return the time the event starts."""
-        return getattr(self, 'time_start')
+        return self.time_start
 
     def ends(self):
         """Return the time the event ends."""
-        return getattr(self, 'time_end')
+        return self.time_end
 
     def add_conflict_with_node(self, node):
-        if getattr(self, 'conflicts_with') is None:
-            setattr(self, 'conflicts_with', set())
+        """Adds the id of the given node to the conflicted ones.
+
+        @param node the node this node conflicts with.
+        """
+        if self.conflicts_with is None:
+            self.conflicts_with = set()
         self.conflicts_with.add(node.get_id())
 
 
@@ -179,7 +184,7 @@ def create_graph(events):
         start_tick = timedelta_to_ticks(start - base)
         end_tick = timedelta_to_ticks(end - base)
         for tick in xrange(start_tick, end_tick):
-            _log.debug("Node %s has neighbour node %s." % (e, ticks[tick]))            
+            _log.debug("Node %s has neighbour node %s." % (e, ticks[tick]))
             e.add_neighbour(ticks[tick])
             ticks[tick].add_neighbour(e)
     return events
