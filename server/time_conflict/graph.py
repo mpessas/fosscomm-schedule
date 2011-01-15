@@ -194,11 +194,9 @@ def create_time_tree(time_start, time_end):
     """Create a graph of TimeNodes.
 
     This is actually a list of nodes sorted by the tick they correspond to."""
-    (hours, minutes) = time_start.split(':')
-    start = datetime.timedelta(hours=int(hours), minutes=int(minutes))
-    (hours, minutes) = time_end.split(':')
-    end = datetime.timedelta(hours=int(hours), minutes=int(minutes))
-    num_ticks = (end.seconds - start.seconds) / 60 / INTERVAL
+    start = str_to_timedelta(time_start)
+    end = str_to_timedelta(time_end)
+    num_ticks = timedelta_to_ticks(end - start)
     _log.debug("Number of ticks: %s" % num_ticks)
     nodes = []
     for tick in xrange(num_ticks):
