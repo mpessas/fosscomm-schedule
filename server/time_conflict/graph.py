@@ -160,7 +160,13 @@ class Event(object):
         store.put(self.as_doc())
 
     def as_doc(self):
-        return self.__attrs
+        doc = {}
+        for (key, value) in self._attrs.iteritems():
+            if isinstance(value, set):
+                doc[key] = list(value)
+            else:
+                doc[key] = value
+        return doc
 
     def starts(self):
         """Return the time the event starts."""
