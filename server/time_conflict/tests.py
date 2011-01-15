@@ -33,6 +33,21 @@ class TestEventNode(unittest.TestCase):
         with self.assertRaises(AttributeError):
             setattr(self.node.wrong_attr, False)
 
+    def test_start_time(self):
+        time = "10:30"
+        self.node.time_start = time
+        self.assertEquals(self.node.starts(), time)
+
+    def test_start_time(self):
+        time = "10:30"
+        self.node.time_end = time
+        self.assertEquals(self.node.ends(), time)
+
+    def test_add_conflicts(self):
+        e = EventNode(5)
+        self.node.add_conflict_with_node(e)
+        self.assertTrue(e.get_id() in self.node.conflicts_with)
+
     def test_save(self):
         self.assertRaises(NotReadyError, self.node.save)
         # for attr in self.attrs:

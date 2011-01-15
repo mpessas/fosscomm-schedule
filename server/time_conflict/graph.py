@@ -40,7 +40,10 @@ class Node(object):
 
         @param node the node to add to neighbours
         """
-        self.neighbours.update(node)
+        self.neighbours.add(node)
+
+    def get_id(self):
+        return self._id
 
     def __unicode__(self):
         return unicode("<TimeNode %s>" % self._id)
@@ -125,14 +128,43 @@ class EventNode(Node):
         store.put(self.as_doc())
 
     def starts(self):
+        """Return the time the event starts."""
         return getattr(self, 'time_start')
+
+    def ends(self):
+        """Return the time the event ends."""
+        return getattr(self, 'time_end')
+
+    def add_conflict_with_node(self, node):
+        if getattr(self, 'conflicts_with') is None:
+            setattr(self, 'conflicts_with', set())
+        self.conflicts_with.add(node.get_id())
+
+
+def str_to_timedelta(time):
+    (hours, minutes) = time.split(':')
+    return datetime.timedelta(hours=int(hours), minutes=int(minutes))
+
+
+def timedelta_to_ticks(diff):
+    """Convert a timedelta object to ticks."""
+    return diff.seconds / 60 / INTERVAL
 
 
 def create_graph(events):
     events.sort(key=EventNode.starts)
-    ticks = create_time_tree(events[0].time_start, events[-1].time_end)
+    base_str = events[0].time_start
+    ticks = create_time_tree(base_str, events[-1].time_end)
+    base = str_to_timedelta(base_str)
     for e in events:
-        e.starts
+        start = str_to_timedelta(e.starts())
+        end = str_to_timedelta(e.ends())
+        start_tick = timedelta_to_ticks(start - base)
+        end_tick = timedelta_to_ticks(end - base)
+        for tick in xrange(start_tick, end_tick):
+            e.add_neighbour(ticks[tick])
+            ticks[tick].add_neighbour(e)
+    return events
 
 
 def create_time_tree(time_start, time_end):
@@ -146,3 +178,13 @@ def create_time_tree(time_start, time_end):
     for tick in xrange(num_ticks):
         nodes.append(TimeNode(tick))
     return nodes
+
+
+def find_conflicts(graph):
+    for node in graph:
+        for neighbour in node.neighbours:
+            for n in neighbour.neighbours:
+                if n is node:
+                    continue
+                node.add_conflict_with_node(n)
+                n.add_conflict_with_node(node)

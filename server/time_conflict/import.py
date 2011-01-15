@@ -46,7 +46,10 @@ def main(argv=None):
     logger.debug("Filename: %s" % filename)
     eventlist = get_events_from_file(filename)
     logger.info("%s events found" % len(eventlist))
-    graph.create_graph([e for e in eventlist if e.day == u"Σάββατο"])
+    events = graph.create_graph([e for e in eventlist if e.day == u"Σάββατο"])
+    graph.find_conflicts(events)
+    for e in events:
+        print e.get_id(), e.conflicts_with
 
 if __name__ == '__main__':
     sys.exit(main())
