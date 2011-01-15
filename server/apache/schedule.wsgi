@@ -1,9 +1,10 @@
 import os
 os.chdir(os.path.dirname(__file__))
 
-from bottle import Bottle, static_file, debug
+from bottle import Bottle, static_file, response, debug
 app = Bottle()
 debug(True)
+import json
 
 from datastore import DataStore
 
@@ -17,7 +18,8 @@ def get_data():
     for r in res:
         del r['_id']
         doc.append(r)
-    return doc
+    response.set_content_type('application/json')
+    return json.dumps(doc)
 
 @app.get(':eid')
 def get_event(eid):
