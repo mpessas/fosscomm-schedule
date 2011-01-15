@@ -1,3 +1,5 @@
+;;; -*- mode: org; -*-
+
 * TODO Time-conflict
   - [ ] Add sphinx documentation
   - [ ] Write tests
@@ -11,6 +13,5 @@
   - [ ] mod_wsgi and pymongo compatibility
   - [ ] Add context manager
 
-;;; Local Variables:
-;;; mode: org
-;;; End:
+* TODO UI
+  - [ ] Save selection to cookie
