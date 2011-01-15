@@ -45,8 +45,11 @@ class Node(object):
     def get_id(self):
         return self._id
 
+    def __str__(self):
+        return "<%s %s>" % (self.__class__.__name__, self._id)
+
     def __unicode__(self):
-        return unicode("<TimeNode %s>" % self._id)
+        return unicode("<%s %s>" % (self.__class__.__name__, self._id))
 
 
 class TimeNode(Node):
@@ -142,16 +145,30 @@ class EventNode(Node):
 
 
 def str_to_timedelta(time):
+    """Convert the given time string to a timedelta object.
+
+    @param time a time in hh:mm format
+    @returns the corresponding timedelta object
+    """
     (hours, minutes) = time.split(':')
     return datetime.timedelta(hours=int(hours), minutes=int(minutes))
 
 
-def timedelta_to_ticks(diff):
-    """Convert a timedelta object to ticks."""
-    return diff.seconds / 60 / INTERVAL
+def timedelta_to_ticks(t):
+    """Convert a timedelta object to ticks.
+
+    @param diff the timedelta object
+    @returns the number of ticks for this object
+    """
+    return t.seconds / 60 / INTERVAL
 
 
 def create_graph(events):
+    """Create the graph.
+
+    The graph consists of EventNodes connected to TimeNodes based on
+    when the corresponding events take place.
+    """
     events.sort(key=EventNode.starts)
     base_str = events[0].time_start
     ticks = create_time_tree(base_str, events[-1].time_end)
@@ -162,18 +179,22 @@ def create_graph(events):
         start_tick = timedelta_to_ticks(start - base)
         end_tick = timedelta_to_ticks(end - base)
         for tick in xrange(start_tick, end_tick):
+            _log.debug("Node %s has neighbour node %s." % (e, ticks[tick]))            
             e.add_neighbour(ticks[tick])
             ticks[tick].add_neighbour(e)
     return events
 
 
 def create_time_tree(time_start, time_end):
+    """Create a graph of TimeNodes.
+
+    This is actually a list of nodes sorted by the tick they correspond to."""
     (hours, minutes) = time_start.split(':')
     start = datetime.timedelta(hours=int(hours), minutes=int(minutes))
     (hours, minutes) = time_end.split(':')
     end = datetime.timedelta(hours=int(hours), minutes=int(minutes))
     num_ticks = (end.seconds - start.seconds) / 60 / INTERVAL
-    _log.info("Number of ticks: %s" % num_ticks)
+    _log.debug("Number of ticks: %s" % num_ticks)
     nodes = []
     for tick in xrange(num_ticks):
         nodes.append(TimeNode(tick))
@@ -181,10 +202,16 @@ def create_time_tree(time_start, time_end):
 
 
 def find_conflicts(graph):
+    """Finds the conflicts between events.
+
+    The ids of the conflicted nodes are saved in the 'conflicts_with'
+    attribute.
+    """
     for node in graph:
         for neighbour in node.neighbours:
             for n in neighbour.neighbours:
                 if n is node:
                     continue
+                _log.info("Nodes %s and %s are in conflict." % (node, n))
                 node.add_conflict_with_node(n)
                 n.add_conflict_with_node(node)
