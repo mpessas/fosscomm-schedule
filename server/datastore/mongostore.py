@@ -2,6 +2,7 @@
 """Module for using MongoDB as datastore."""
 
 import pymongo
+import contextlib
 
 
 class MongoStore(object):
@@ -22,6 +23,13 @@ class MongoStore(object):
         It must be run, when the connection is no longer needed.
         """
         self._connection.disconnect()
+
+    @contextlib.contextmanager
+    def open(self):
+        """Context manager to connect/diconnect to MongoDB."""
+        self.connect()
+        yield
+        self.disconnect()
 
     def _get_collection(self):
         """Return the desired collection of the database."""

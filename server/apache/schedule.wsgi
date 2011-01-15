@@ -13,9 +13,8 @@ from datastore import DataStore
 def get_events():
     """Return a list of all events."""
     ds = DataStore()
-    ds.connect()
-    res = ds.get_all()
-    ds.disconnect()
+    with ds.open():
+        res = ds.get_all()
     doc = []
     for r in res:
         del r['_id']            # Don't reveal these
@@ -28,9 +27,8 @@ def get_events():
 def get_event(eid):
     """Return the event with the specified id."""
     ds = DataStore()
-    ds.connect()
-    res = ds.get('id', int(eid))
-    ds.disconnect()
+    with ds.open():
+        res = ds.get('id', int(eid))
     del res['_id']              # Don't reveal this
     return res
 
