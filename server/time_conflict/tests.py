@@ -10,7 +10,7 @@ class TestEvent(unittest.TestCase):
 
     def setUp(self):
         self.node = Node(Event(3))
-        self.attrs = self.node._wraps._Event__attrs.iterkeys()
+        self.attrs = self.node._wraps._attrs.iterkeys()
 
     def test_initializer(self):
         node = Node(Event(3, title=u"title", summary=u"summary"))

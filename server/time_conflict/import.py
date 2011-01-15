@@ -56,6 +56,7 @@ def main(argv=None):
         events = graph.create_graph([e for e in eventlist if e.day == day])
         graph.find_conflicts(events)
         for e in events:
+            e.save()
             print e.get_id(), e.conflicts_with
 
 if __name__ == '__main__':

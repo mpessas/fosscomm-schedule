@@ -87,12 +87,12 @@ class Event(object):
 
     def __init__(self, eid, **kwargs):
         self._id = eid
-        self.__attrs = {'id': eid, }
+        self._attrs = {'id': eid, }
         self._optional_attrs = ('filename', 'conflicts_with', )
         for key in ('title', 'speaker', 'summary',
                     'filename', 'time_start', 'time_end', 'day',
                     'room', 'conflicts_with'):
-            self.__attrs[key] = kwargs.get(key)
+            self._attrs[key] = kwargs.get(key)
             try:
                 del kwargs[key]
             except KeyError:
@@ -109,7 +109,7 @@ class Event(object):
         @returns True if all attributes are set
                  False else
         """
-        return all(val for (key, val) in self.__attrs.iteritems()
+        return all(val for (key, val) in self._attrs.iteritems()
                    if key not in self._optional_attrs)
 
     def ready_required(f):
@@ -135,17 +135,17 @@ class Event(object):
         @return the field, if it exists
                 None, else
         """
-        if not name in self.__attrs.iterkeys():
+        if not name in self._attrs.iterkeys():
             raise AttributeError(name)
-        return self.__attrs[name]
+        return self._attrs[name]
 
     def __setattr__(self, name, value):
         if not '_Event__initialized' in self.__dict__:
             super(Event, self).__setattr__(name, value)
-        elif not name in self.__attrs.iterkeys():
+        elif not name in self._attrs.iterkeys():
             raise AttributeError(name)
         else:
-            self.__attrs[name] = value
+            self._attrs[name] = value
 
     @ready_required
     def save(self):
