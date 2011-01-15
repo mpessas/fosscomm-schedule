@@ -18,11 +18,15 @@ _log = logging.getLogger('')
 
 
 class Node(object):
-    """A node in the graph."""
+    """A node in the graph.
 
-    def __init__(self, num):
+    Each node wraps an object and exposes its functionality.
+    """
+
+    def __init__(self, obj):
         """Initializer."""
-        self._id = num
+        self._id = obj.get_id()
+        self._wraps = obj
         self.neighbours = set()
 
     def has_neighbour(self, node):
@@ -46,34 +50,48 @@ class Node(object):
         """Return the id of this node."""
         return self._id
 
+    def __getattr__(self, name):
+        """Forward unknown requests to wrapped object."""
+        return getattr(self._wraps, name)
+
+    def __lt__(self, other):
+        return self._wraps.__lt__(other._wraps)
+
     def __str__(self):
-        return "<%s %s>" % (self.__class__.__name__, self._id)
+        return "<Node.%s %s>" % (self._wraps.__class__.__name__, self._id)
 
     def __unicode__(self):
-        return unicode("<%s %s>" % (self.__class__.__name__, self._id))
+        return unicode("Node.<%s %s>" % (self._wraps.__class__.__name__,
+                                         self._id))
 
 
-class TimeNode(Node):
-    """A node for time ticks."""
+class Tick(object):
+    """A tick."""
 
-    def __init__(self, num):
-        super(TimeNode, self).__init__(num)
+    def __init__(self, tick):
+        self._tick = tick
 
     @property
     def tick(self):
-        return self._id
+        return self._tick
+
+    def get_id(self):
+        return self.tick
+
+    def __lt__(self, other):
+        return self.tick < other.tick
 
 
-class EventNode(Node):
-    """A node for the events."""
+class Event(object):
+    """An event."""
 
-    def __init__(self, num, **kwargs):
-        super(EventNode, self).__init__(num)
-        self.__attrs = {}
+    def __init__(self, eid, **kwargs):
+        self._id = eid
+        self.__attrs = {'id': eid, }
         self._optional_attrs = ('filename', 'conflicts_with', )
-        for key in ('title', 'speaker', 'summary', 'filename',
-                    'time_start', 'time_end', 'day', 'room',
-                    'conflicts_with'):
+        for key in ('title', 'speaker', 'summary',
+                    'filename', 'time_start', 'time_end', 'day',
+                    'room', 'conflicts_with'):
             self.__attrs[key] = kwargs.get(key)
             try:
                 del kwargs[key]
@@ -105,6 +123,12 @@ class EventNode(Node):
         new_f.__doc__ = f.__doc__
         return new_f
 
+    def __lt__(self, other):
+        t_self_start = self.starts().split(':')
+        t_other_start = other.starts().split(':')
+        return (datetime.time(int(t_self_start[0]), int(t_self_start[1])) <
+                datetime.time(int(t_other_start[0]), int(t_other_start[1])))
+
     def __getattr__(self, name):
         """Allow access to fields of the event.
 
@@ -116,8 +140,8 @@ class EventNode(Node):
         return self.__attrs[name]
 
     def __setattr__(self, name, value):
-        if not '_EventNode__initialized' in self.__dict__:
-            super(EventNode, self).__setattr__(name, value)
+        if not '_Event__initialized' in self.__dict__:
+            super(Event, self).__setattr__(name, value)
         elif not name in self.__attrs.iterkeys():
             raise AttributeError(name)
         else:
@@ -148,6 +172,10 @@ class EventNode(Node):
             self.conflicts_with = set()
         self.conflicts_with.add(node.get_id())
 
+    def get_id(self):
+        """Return the id of the event."""
+        return self._id
+
 
 def str_to_timedelta(time):
     """Convert the given time string to a timedelta object.
@@ -174,7 +202,7 @@ def create_graph(events):
     The graph consists of EventNodes connected to TimeNodes based on
     when the corresponding events take place.
     """
-    events.sort(key=EventNode.starts)
+    events.sort()
     base_str = events[0].time_start
     ticks = create_time_tree(base_str, events[-1].time_end)
     base = str_to_timedelta(base_str)
@@ -200,7 +228,7 @@ def create_time_tree(time_start, time_end):
     _log.debug("Number of ticks: %s" % num_ticks)
     nodes = []
     for tick in xrange(num_ticks):
-        nodes.append(TimeNode(tick))
+        nodes.append(Node(Tick(tick)))
     return nodes
 
 
