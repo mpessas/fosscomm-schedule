@@ -32,7 +32,7 @@ def get_events_from_file(filename):
         events = json.load(f)
     event_node_list = []
     for e in events:
-        event_node_list.append(graph.EventNode(e['id'], **e))
+        event_node_list.append(graph.Node(graph.Event(e['id'], **e)))
     return event_node_list
 
 
