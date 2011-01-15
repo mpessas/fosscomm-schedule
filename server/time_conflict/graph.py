@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """A module to resolve time conflicts for events.
 
-Time is divided in ticks. Each tick is represented by a TimeNode. An
-event is represented by an EventNode. Each EventNode has the
-corresponding TimeNodes as neighbours.
-Two EventNodes conflict iff they share at least one TimeNode.
+Time is divided in ticks. Each tick is represented by a Node of Time. An
+event is represented by a Node of Event. Each Event has the
+corresponding Time as neighbours.
+Two Nodes of Events conflict iff they share at least one Node of Time.
 """
 
 import datetime
