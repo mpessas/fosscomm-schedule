@@ -91,12 +91,16 @@ class Event(object):
         self._optional_attrs = ('filename', 'conflicts_with', )
         for key in ('title', 'speaker', 'summary',
                     'filename', 'time_start', 'time_end', 'day',
-                    'room', 'conflicts_with'):
+                    'room', ):
             self._attrs[key] = kwargs.get(key)
             try:
                 del kwargs[key]
             except KeyError:
                 pass
+        if 'conflicts_with' in kwargs:
+            self._attrs['conflicts_with'] = kwargs['conflicts_with']
+        else:
+            self._attrs['conflicts_with'] = set()
         if 'id' in kwargs:
             del kwargs['id']
         if kwargs:
@@ -171,8 +175,6 @@ class Event(object):
 
         @param node the node this node conflicts with.
         """
-        if self.conflicts_with is None:
-            self.conflicts_with = set()
         self.conflicts_with.add(node.get_id())
 
     def get_id(self):
