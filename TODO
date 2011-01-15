@@ -7,7 +7,7 @@
   - [ ] Pylint check 
   - [ ] Move to separate package
   - [ ] Move Event class out of EventNode
-  - [ ] Use numerics for days
+  - [X] Use numerics for days
 
 * TODO Datastore
   - [ ] mod_wsgi and pymongo compatibility
