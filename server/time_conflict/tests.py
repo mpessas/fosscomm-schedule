@@ -35,7 +35,7 @@ class TestEvent(unittest.TestCase):
 
     def test_start_time(self):
         time = "10:30"
-        self.node.time_start = time
+        self.node._wraps.time_start = time
         self.assertEquals(self.node.starts(), time)
 
     def test_start_time(self):
