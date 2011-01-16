@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
 
-header {
+header, footer {
     display: block;
 }
 
@@ -10,6 +10,7 @@ html {
     margin: 0 auto;
     color: #444444;
     font-size: 12px;
+    height: 100%;
 }
 
 header h1 {
@@ -17,6 +18,36 @@ header h1 {
     font-family: 'Droid Serif', serif;
     font-weight: 800;
     text-shadow: 8px 8px 8px #ddd;
+}
+
+footer {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+    height: 3em;
+    width: 1000px;
+    padding-top: 2em;
+}
+
+footer ul {
+    margin: 0;
+    padding: 0;
+}
+
+footer ul li {
+    display: inline;
+    list-decoration: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer ul li a {
+    border-right: 2px solid #444444;
+    border-left: 2px solid #444444;
+    padding: 1em 3em 1em 3em;
+    font-size: 1.1em;
+    letter-spacing: 2px;
 }
 
 #schedules {
