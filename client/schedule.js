@@ -1,13 +1,13 @@
 function get_template(row, speech) {
     var speechHtml = '<a href="speech' + speech.id +
-        '.html" id="speech' + speech.id + '">' +
+        '.html" id="' + speech.id + '">' +
         speech.title + '</a>';
     if (speech.room == "Β1") {
-        row.find('.tb1hour').html(speech.hour);
+        row.find('.tb1hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb1speech').html(speechHtml);
         row.find('.tb1speaker').text(speech.speaker);
     } else if (speech.room == "Β4") {
-        row.find('.tb4hour').html(speech.hour);
+        row.find('.tb4hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb4speech').html(speechHtml);
         row.find('.tb4speaker').text(speech.speaker);
     }
@@ -18,7 +18,7 @@ $(function() {
     // Fetch data to begin with
     $.ajax({
         type: 'GET',
-        url: '/api/schedule/fetch_data.json',
+        url: '/api/schedule/',
         timeout: 10000,
         dataType: 'json',
         error: function(xhr, status, error) {
@@ -41,7 +41,7 @@ $(function() {
         // Support for js history API
         if (window.history && window.history.pushState) {
             e.preventDefault()
-            var filename = this.id + ".json";
+            var filename = this.id;
             var state = { "hidden": true };
             var title = "Speech: " + this.id;
             var url = this.id + ".html";
@@ -62,7 +62,8 @@ $(function() {
                     $('#res').find('#summary').text(data.summary);
                     $('#res').find('#speaker').text(data.speaker);
                     $('#res').find('#details').html(data.day + 
-                                                    ", " + data.hour +
+                                                    ", " + data.time_start +
+                                                    " &#150 " + data.time_end +
                                                     " @ " + data.room);
                     $('table').fadeOut('fast', function() {
                         $('#res').fadeIn('fast');
