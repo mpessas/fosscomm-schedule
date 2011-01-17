@@ -23,13 +23,4 @@ def get_events():
     return json.dumps(doc)
 
 
-@app.get(':eid')
-def get_event(eid):
-    """Return the event with the specified id."""
-    ds = DataStore()
-    with ds.open():
-        res = ds.get('id', int(eid))
-    del res['_id']              # Don't reveal this
-    return res
-
 application = app

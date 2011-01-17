@@ -34,6 +34,7 @@ $(function() {
                     get_template(newRow, data[i]).appendTo('table#schedule_b4');
                 }
             }
+            g_data = data;      // Save in global variable to access in links
         }
     });
     // handle links to speeches
@@ -46,29 +47,17 @@ $(function() {
             var title = "Speech: " + this.id;
             var url = this.id + ".html";
             window.history.pushState(state, title, url);
-
-            // load new data for selection
-            var path = "/api/schedule/" + filename;
-            $.ajax({
-                type: 'GET',
-                url: path,
-                timeout: 10000,
-                dataType: 'json',
-                error: function(xhr, status, error) {
-                    alert(status + " " + error);
-                },
-                success: function(data) {
-                    $('#res').find('#title').text(data.title);
-                    $('#res').find('#summary').text(data.summary);
-                    $('#res').find('#speaker').text(data.speaker);
-                    $('#res').find('#details').html(data.day + 
-                                                    ", " + data.time_start +
-                                                    " &#150 " + data.time_end +
-                                                    " @ " + data.room);
-                    $('table').fadeOut('fast', function() {
-                        $('#res').fadeIn('fast');
-                    });
-                }
+            
+            var data = g_data[this.id - 1];
+            $('#res').find('#title').text(data.title);
+            $('#res').find('#summary').text(data.summary);
+            $('#res').find('#speaker').text(data.speaker);
+            $('#res').find('#details').html(data.day + 
+                                            ", " + data.time_start +
+                                            " &#150 " + data.time_end +
+                                            " @ " + data.room);
+            $('table').fadeOut('fast', function() {
+                $('#res').fadeIn('fast');
             });
 
             // handle back button
