@@ -71,7 +71,7 @@ $(function() {
         }
     });
 
-    // Animate o mouseover
+    // Animate on mouseover
     $('td').live({
         mouseenter:
         function() {
