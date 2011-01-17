@@ -59,11 +59,11 @@ $(function() {
                                             " &#150 " + data.time_end +
                                             " @ " + data.room);
             $('table').fadeOut('fast', function() {
-                $('#res').fadeIn('fast');
+               $('#res').fadeIn('fast');
             });
 
             // handle back button
-            $(window).bind("popstate", function() {
+            $(window).bind("popstate", function(b) {
                 $('div#res').fadeOut('fast', function() {
                     $('table').fadeIn('slow');
                 });
@@ -72,9 +72,14 @@ $(function() {
     });
 
     // Animate o mouseover
-    $('td').hover(function() {
-        $(this).animate({fontSize: '+=5px'}, 200);
-    }, function() {
-        $(this).animate({fontSize: '-=5px'}, 200);
+    $('td').live({
+        mouseenter:
+        function() {
+            $(this).animate({fontSize: '+=5px'}, 200);
+        },
+        mouseleave:
+        function() {
+            $(this).animate({fontSize: '-=5px'}, 200);
+        }
     });
 });
