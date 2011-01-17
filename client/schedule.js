@@ -70,16 +70,4 @@ $(function() {
             });
         }
     });
-
-    // Animate on mouseover
-    $('td').live({
-        mouseenter:
-        function() {
-            $(this).animate({fontSize: '+=5px'}, 200);
-        },
-        mouseleave:
-        function() {
-            $(this).animate({fontSize: '-=5px'}, 200);
-        }
-    });
 });
