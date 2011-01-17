@@ -49,6 +49,7 @@ $(function() {
             var title = "Speech: " + this.id;
             var url = this.id + ".html";
             window.history.pushState(state, title, url);
+            hidden = true;
             
             var data = g_data[this.id - 1];
             $('#res').find('#title').text(data.title);
@@ -64,9 +65,17 @@ $(function() {
 
             // handle back button
             $(window).bind("popstate", function(b) {
-                $('div#res').fadeOut('fast', function() {
-                    $('table').fadeIn('slow');
-                });
+                if (hidden) {
+                    hidden = false;
+                    $('div#res').fadeOut('fast', function() {
+                        $('table').fadeIn('slow');
+                    });
+                } else {
+                    hidden = true;
+                    $('table').fadeOut('fast', function() {
+                        $('#res').fadeIn('fast');
+                    });
+                }
             });
         }
     });
