@@ -21,7 +21,7 @@ header h1 {
 }
 
 footer {
-    margin: 0;
+    margin: 1em 0 0 0;
     padding: 0;
     position: absolute;
     bottom: 0;
@@ -40,6 +40,7 @@ footer ul li {
     list-decoration: none;
     padding: 0;
     margin: 0;
+    font-variant:small-caps;
 }
 
 footer ul li a {
@@ -51,6 +52,10 @@ footer ul li a {
 
 footer ul li:first-child a {
     border-left: 2px solid #444444;
+}
+
+#wrap {
+    min-height: 4em;
 }
 
 #schedules {
