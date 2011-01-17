@@ -15,6 +15,9 @@ function get_template(row, speech) {
 }
 
 $(function() {
+    // JS enabled, hide warning
+    $('#warning').hide()
+
     // Fetch data to begin with
     $.ajax({
         type: 'GET',
