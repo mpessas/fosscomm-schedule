@@ -6,10 +6,12 @@ function get_template(row, speech) {
         row.find('.tb1hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb1speech').html(speechHtml);
         row.find('.tb1speaker').text(speech.speaker);
+        row.find('.tb1attend').html("<input type='checkbox' />Ναι");        
     } else if (speech.room == "Β4") {
         row.find('.tb4hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb4speech').html(speechHtml);
         row.find('.tb4speaker').text(speech.speaker);
+        row.find('.tb4attend').html("<input type='checkbox'/>Ναι");
     }
     return row;
 }
