@@ -6,12 +6,14 @@ function get_template(row, speech) {
         row.find('.tb1hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb1speech').html(speechHtml);
         row.find('.tb1speaker').text(speech.speaker);
-        row.find('.tb1attend').html("<input type='checkbox' />Ναι");        
+        var chbox = "<input type='checkbox' id='chbox" + speech.id + "' />Ναι";
+        row.find('.tb1attend').html(chbox);
     } else if (speech.room == "Β4") {
         row.find('.tb4hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb4speech').html(speechHtml);
         row.find('.tb4speaker').text(speech.speaker);
-        row.find('.tb4attend').html("<input type='checkbox'/>Ναι");
+        var chbox = "<input type='checkbox' id='chbox" + speech.id + "' />Ναι";
+        row.find('.tb4attend').html(chbox);
     }
     return row;
 }
@@ -77,6 +79,31 @@ $(function() {
                     });
                 }
             });
+        }
+    });
+
+    // Create ical file
+    $('#ical').click(function(e) {
+        e.preventDefault();
+        window.location.href = '/api/schedule/ical';
+    });
+
+    // disable events on check/ enable on uncheck
+    $('input').live('click', function(e) {
+        for (var i in g_data) {
+            if (g_data[i].id == this.id.substr(5)) {
+                console.log(g_data[i].conflicts_with);
+                var conflict = g_data[i].conflicts_with;
+                for (var chbox in conflict) {
+                    var chboxid = '#chbox' + conflict[chbox];
+                    console.log(chboxid);
+                    if (this.checked) {
+                        $(chboxid).attr('disabled', true);
+                    } else {
+                        $(chboxid).removeAttr('disabled');
+                    }
+                }
+            }
         }
     });
 });
