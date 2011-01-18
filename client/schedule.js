@@ -6,13 +6,15 @@ function get_template(row, speech) {
         row.find('.tb1hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb1speech').html(speechHtml);
         row.find('.tb1speaker').text(speech.speaker);
-        var chbox = "<input type='checkbox' id='chbox" + speech.id + "' />Ναι";
+        var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+            "' value='" + speech.id + "' />Ναι";
         row.find('.tb1attend').html(chbox);
     } else if (speech.room == "Β4") {
         row.find('.tb4hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb4speech').html(speechHtml);
         row.find('.tb4speaker').text(speech.speaker);
-        var chbox = "<input type='checkbox' id='chbox" + speech.id + "' />Ναι";
+        var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+            "' value='" + speech.id + "' />Ναι";
         row.find('.tb4attend').html(chbox);
     }
     return row;
@@ -85,7 +87,12 @@ $(function() {
     // Create ical file
     $('#ical').click(function(e) {
         e.preventDefault();
-        window.location.href = '/api/schedule/ical';
+        var checked = [];
+        $('input:checkbox:checked').each(function(i) {
+            checked[i] = $(this).val();
+        });
+        console.log(checked)
+        window.open('/api/schedule/ical?ids=' + checked.join(','));
     });
 
     // disable events on check/ enable on uncheck
