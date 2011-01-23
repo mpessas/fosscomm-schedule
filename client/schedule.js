@@ -92,7 +92,7 @@ $(function() {
             checked[i] = $(this).val();
         });
         console.log(checked)
-        window.open('/api/schedule/ical?ids=' + checked.join(','));
+        window.open('/api/schedule/fosscomm.ical?events=' + checked.join(':'));
     });
 
     // disable events on check/ enable on uncheck

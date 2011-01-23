@@ -1,10 +1,12 @@
 import os
 os.chdir(os.path.dirname(__file__))
 
-from bottle import Bottle, response, debug
+import datetime
+import json
+from bottle import Bottle, request, response, abort, debug
 app = Bottle()
 debug(True)
-import json
+import icalendar
 
 from datastore import DataStore
 
@@ -22,5 +24,44 @@ def get_events():
     response.set_content_type('application/json')
     return json.dumps(doc)
 
+@app.get('/fosscomm.ical')
+def get_ical():
+    """Return an ical with the specified events."""
+    events = request.GET.get('events').split(':')
+    for i, event in enumerate(events):
+        try:
+            events[i] = int(event)
+        except ValueError:
+            abort(500, "Malformed query string provided")
+    ds = DataStore()
+    with ds.open():
+        res = ds.filter(id={'$in': events})
+    cal = icalendar.Calendar()
+    cal.add('version', '2.0')
+    for r in res:
+        event = icalendar.Event()
+        event['uid'] = "%s@patras.fosscomm.gr" % r['id']
+        summary = "%s, %s" % (r['title'], r['speaker'])
+        event.add('summary', summary)
+        event.add('location', r['room'])
+        event.add('dtstamp', datetime.datetime.utcnow())
+        event.add('dtstart', event_time_to_datetime(r['day'], r['time_start']))
+        event.add('dtend', event_time_to_datetime(r['day'], r['time_end']))
+        event.add('description', r['summary'])
+        cal.add_component(event)
+    response.set_content_type('text/calendar')
+    return cal.as_string()
+
+def event_time_to_datetime(e_day, e_time):
+    """Convert day/time of the event to an datetime object."""
+    # Conference takes place on 7-8 May 2011
+    if e_day == 1:
+        day = 7
+    else:
+        day = 8
+    (hours, minutes) = e_time.split(':')
+    return datetime.datetime(2011, 5, day,
+                             int(hours), int(minutes), 0,
+                             tzinfo=icalendar.LocalTimezone())
 
 application = app
