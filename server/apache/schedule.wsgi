@@ -27,7 +27,10 @@ def get_events():
 @app.get('/fosscomm.ical')
 def get_ical():
     """Return an ical with the specified events."""
-    events = request.GET.get('events').split(':')
+    events = request.GET.get('events')
+    if events is None:
+        abort(500, "No events specified")
+    events = events.split(':')
     for i, event in enumerate(events):
         try:
             events[i] = int(event)
