@@ -8,16 +8,25 @@ html {
     width: 1000px;
     text-align: center;
     margin: 0 auto;
-    color: #444444;
+    color: #222222;
     font-size: 12px;
     height: 100%;
 }
 
 header h1 {
-    font-size: 3em;
+    font-size: 4em;
     font-family: 'Droid Serif', serif;
     font-weight: 800;
     text-shadow: 8px 8px 8px #ddd;
+}
+
+header h1 a {
+    text-decoration: none;
+    color: #222222;
+}
+
+h2 {
+    font-size: 2.5em;
 }
 
 footer {
