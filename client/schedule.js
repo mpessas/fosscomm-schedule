@@ -20,6 +20,21 @@ function get_template(row, speech) {
     return row;
 }
 
+function populate_table(day, data) {
+    $('table tbody').find('tr').not('.b1template, .b4template').remove();
+    for (var i in data) {
+        if (data[i].day == day) {
+            if (data[i].room == "Β1") {
+                var newRow = $('.b1template').clone().removeClass('b1template');
+                get_template(newRow, data[i]).appendTo('table#schedule_b1');
+            } else if (data[i].room == "Β4") {
+                var newRow = $('.b4template').clone().removeClass('b4template');
+                get_template(newRow, data[i]).appendTo('table#schedule_b4');
+            }
+        }
+    }
+}
+
 $(function() {
     // JS enabled, hide warning
     $('#warning').hide()
@@ -34,16 +49,8 @@ $(function() {
             alert(status + ": " + error);
         },
         success: function(data) {
-            for (var i in data) {
-                if (data[i].room == "Β1") {
-                    var newRow = $('.b1template').clone().removeClass('b1template');
-                    get_template(newRow, data[i]).appendTo('table#schedule_b1');
-                } else if (data[i].room == "Β4") {
-                    var newRow = $('.b4template').clone().removeClass('b4template');
-                    get_template(newRow, data[i]).appendTo('table#schedule_b4');
-                }
-            }
             g_data = data;      // Save in global variable to access in links
+            populate_table(1, data);
         }
     });
 
@@ -123,5 +130,13 @@ $(function() {
                 }
             }
         }
+    });
+
+    // change day shown
+    $('#day1').click(function() {
+        populate_table(1, g_data);
+    });
+    $('#day2').click(function() {
+        populate_table(2, g_data);
     });
 });
