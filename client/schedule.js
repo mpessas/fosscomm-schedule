@@ -67,7 +67,7 @@ $(function() {
                                             ", " + data.time_start +
                                             " &#150 " + data.time_end +
                                             " @ " + data.room);
-            $('table').fadeOut('fast', function() {
+            $('#page1').fadeOut('fast', function() {
                $('#res').fadeIn('fast');
             });
 
@@ -75,12 +75,12 @@ $(function() {
             $(window).bind("popstate", function(b) {
                 if (hidden) {
                     hidden = false;
-                    $('div#res').fadeOut('fast', function() {
-                        $('table').fadeIn('slow');
+                    $('#res').fadeOut('fast', function() {
+                        $('#page1').fadeIn('slow');
                     });
                 } else {
                     hidden = true;
-                    $('table').fadeOut('fast', function() {
+                    $('#page1').fadeOut('fast', function() {
                         $('#res').fadeIn('fast');
                     });
                 }
