@@ -133,10 +133,12 @@ $(function() {
     });
 
     // change day shown
-    $('#day1').click(function() {
+    $('#day1').click(function(e) {
+        e.preventDefault();
         populate_table(1, g_data);
     });
-    $('#day2').click(function() {
+    $('#day2').click(function(e) {
+        e.preventDefault();
         populate_table(2, g_data);
     });
 });
