@@ -1,5 +1,5 @@
 function get_template(row, speech, selection) {
-    var checked = selection[speech.id] ? 'checked="checked"' : '';
+    var checked = selection[speech.id - 1] ? 'checked="checked"' : '';
     var speechHtml = '<a href="speech' + speech.id +
         '.html" id="' + speech.id + '">' +
         speech.title + '</a>';
@@ -51,7 +51,8 @@ $(function() {
         },
         success: function(data) {
             g_data = data;      // Save in global variable to access in links
-            g_selection = {};   // global event selection
+            console.log(data.length);
+            g_selection = Array(data.length);   // global event selection
             populate_table(1, data, g_selection);
         }
     });
@@ -108,9 +109,13 @@ $(function() {
     $('#ical').click(function(e) {
         e.preventDefault();
         var checked = [];
-        $('input:checkbox:checked').each(function(i) {
-            checked[i] = $(this).val();
-        });
+        var j = 0;
+        for (var i in g_selection) {
+            if (g_selection[i]) {
+                checked[j] = parseInt(i) + 1;
+                j++;
+            }
+        }
         console.log(checked)
         window.open('/api/schedule/fosscomm.ical?events=' + checked.join(':'));
     });
@@ -119,9 +124,9 @@ $(function() {
     $('input').live('click', function(e) {
         // Add/remove from selection
         if (this.checked) {
-            g_selection[this.id.substr(5)] = true;
+            g_selection[this.id.substr(5) - 1] = true;
         } else {
-            g_selection[this.id.substr(5)] = false;
+            g_selection[this.id.substr(5) - 1] = false;
         }
 
         for (var i in g_data) {
