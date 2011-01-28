@@ -11,8 +11,8 @@
 
 
 * TODO Datastore
-  - [ ] mod_wsgi and pymongo compatibility
-  - [ ] Add context manager
+  - [X] mod_wsgi and pymongo compatibility
+  - [X] Add context manager
   - [ ] Add indices
 
 * TODO UI

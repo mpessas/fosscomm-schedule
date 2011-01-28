@@ -6,10 +6,16 @@ function get_template(row, speech) {
         row.find('.tb1hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb1speech').html(speechHtml);
         row.find('.tb1speaker').text(speech.speaker);
+        var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+            "' value='" + speech.id + "' />Ναι";
+        row.find('.tb1attend').html(chbox);
     } else if (speech.room == "Β4") {
         row.find('.tb4hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb4speech').html(speechHtml);
         row.find('.tb4speaker').text(speech.speaker);
+        var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+            "' value='" + speech.id + "' />Ναι";
+        row.find('.tb4attend').html(chbox);
     }
     return row;
 }
@@ -51,6 +57,7 @@ $(function() {
             var title = "Speech: " + this.id;
             var url = this.id + ".html";
             window.history.pushState(state, title, url);
+            hidden = true;
             
             var data = g_data[this.id - 1];
             $('#res').find('#title').text(data.title);
@@ -61,14 +68,22 @@ $(function() {
                                             " &#150 " + data.time_end +
                                             " @ " + data.room);
             $('table').fadeOut('fast', function() {
-                $('#res').fadeIn('fast');
+               $('#res').fadeIn('fast');
             });
 
             // handle back button
-            $(window).bind("popstate", function() {
-                $('div#res').fadeOut('fast', function() {
-                    $('table').fadeIn('slow');
-                });
+            $(window).bind("popstate", function(b) {
+                if (hidden) {
+                    hidden = false;
+                    $('div#res').fadeOut('fast', function() {
+                        $('table').fadeIn('slow');
+                    });
+                } else {
+                    hidden = true;
+                    $('table').fadeOut('fast', function() {
+                        $('#res').fadeIn('fast');
+                    });
+                }
             });
         }
     });
@@ -78,5 +93,35 @@ $(function() {
         $(this).animate({fontSize: '+=5px'}, 200);
     }, function() {
         $(this).animate({fontSize: '-=5px'}, 200);
+    });
+
+    // Create ical file
+    $('#ical').click(function(e) {
+        e.preventDefault();
+        var checked = [];
+        $('input:checkbox:checked').each(function(i) {
+            checked[i] = $(this).val();
+        });
+        console.log(checked)
+        window.open('/api/schedule/fosscomm.ical?events=' + checked.join(':'));
+    });
+
+    // disable events on check/ enable on uncheck
+    $('input').live('click', function(e) {
+        for (var i in g_data) {
+            if (g_data[i].id == this.id.substr(5)) {
+                console.log(g_data[i].conflicts_with);
+                var conflict = g_data[i].conflicts_with;
+                for (var chbox in conflict) {
+                    var chboxid = '#chbox' + conflict[chbox];
+                    console.log(chboxid);
+                    if (this.checked) {
+                        $(chboxid).attr('disabled', true);
+                    } else {
+                        $(chboxid).removeAttr('disabled');
+                    }
+                }
+            }
+        }
     });
 });
