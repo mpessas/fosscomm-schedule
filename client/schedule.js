@@ -1,4 +1,5 @@
-function get_template(row, speech) {
+function get_template(row, speech, selection) {
+    var checked = selection[speech.id] ? 'checked="checked"' : '';
     var speechHtml = '<a href="speech' + speech.id +
         '.html" id="' + speech.id + '">' +
         speech.title + '</a>';
@@ -7,29 +8,29 @@ function get_template(row, speech) {
         row.find('.tb1speech').html(speechHtml);
         row.find('.tb1speaker').text(speech.speaker);
         var chbox = "<input type='checkbox' id='chbox" + speech.id + 
-            "' value='" + speech.id + "' />Ναι";
+            "' value='" + speech.id + "' " + checked +  "/>Ναι";
         row.find('.tb1attend').html(chbox);
     } else if (speech.room == "Β4") {
         row.find('.tb4hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb4speech').html(speechHtml);
         row.find('.tb4speaker').text(speech.speaker);
         var chbox = "<input type='checkbox' id='chbox" + speech.id + 
-            "' value='" + speech.id + "' />Ναι";
+            "' value='" + speech.id + "' " + checked + "/>Ναι";
         row.find('.tb4attend').html(chbox);
     }
     return row;
 }
 
-function populate_table(day, data) {
+function populate_table(day, data, selection) {
     $('table tbody').find('tr').not('.b1template, .b4template').remove();
     for (var i in data) {
         if (data[i].day == day) {
             if (data[i].room == "Β1") {
                 var newRow = $('.b1template').clone().removeClass('b1template');
-                get_template(newRow, data[i]).appendTo('table#schedule_b1');
+                get_template(newRow, data[i], selection).appendTo('table#schedule_b1');
             } else if (data[i].room == "Β4") {
                 var newRow = $('.b4template').clone().removeClass('b4template');
-                get_template(newRow, data[i]).appendTo('table#schedule_b4');
+                get_template(newRow, data[i], selection).appendTo('table#schedule_b4');
             }
         }
     }
@@ -50,7 +51,8 @@ $(function() {
         },
         success: function(data) {
             g_data = data;      // Save in global variable to access in links
-            populate_table(1, data);
+            g_selection = {};   // global event selection
+            populate_table(1, data, g_selection);
         }
     });
 
@@ -115,6 +117,13 @@ $(function() {
 
     // disable events on check/ enable on uncheck
     $('input').live('click', function(e) {
+        // Add/remove from selection
+        if (this.checked) {
+            g_selection[this.id.substr(5)] = true;
+        } else {
+            g_selection[this.id.substr(5)] = false;
+        }
+
         for (var i in g_data) {
             if (g_data[i].id == this.id.substr(5)) {
                 console.log(g_data[i].conflicts_with);
@@ -135,10 +144,10 @@ $(function() {
     // change day shown
     $('#day1').click(function(e) {
         e.preventDefault();
-        populate_table(1, g_data);
+        populate_table(1, g_data, g_selection);
     });
     $('#day2').click(function(e) {
         e.preventDefault();
-        populate_table(2, g_data);
+        populate_table(2, g_data, g_selection);
     });
 });
