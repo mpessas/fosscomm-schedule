@@ -40,6 +40,7 @@ $(function() {
             g_data = data;      // Save in global variable to access in links
         }
     });
+
     // handle links to speeches
     $('td a').live('click', function(e) {
         // Support for js history API
@@ -72,7 +73,7 @@ $(function() {
         }
     });
 
-    // Animate o mouseover
+    // Animate on mouseover
     $('td').hover(function() {
         $(this).animate({fontSize: '+=5px'}, 200);
     }, function() {
