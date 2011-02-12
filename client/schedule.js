@@ -51,7 +51,6 @@ $(function() {
         },
         success: function(data) {
             g_data = data;      // Save in global variable to access in links
-            console.log(data.length);
             g_selection = Array(data.length);   // global event selection
             populate_table(1, data, g_selection);
         }
@@ -116,7 +115,6 @@ $(function() {
                 j++;
             }
         }
-        console.log(checked)
         window.open('/api/schedule/fosscomm.ical?events=' + checked.join(':'));
     });
 
@@ -131,11 +129,9 @@ $(function() {
 
         for (var i in g_data) {
             if (g_data[i].id == this.id.substr(5)) {
-                console.log(g_data[i].conflicts_with);
                 var conflict = g_data[i].conflicts_with;
                 for (var chbox in conflict) {
                     var chboxid = '#chbox' + conflict[chbox];
-                    console.log(chboxid);
                     if (this.checked) {
                         $(chboxid).attr('disabled', true);
                     } else {
