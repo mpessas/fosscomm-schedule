@@ -1,7 +1,7 @@
 function get_template(row, speech, selection) {
     var checked = selection[speech.id - 1] ? 'checked="checked"' : '';
-    var speechHtml = '<a href="speech' + speech.id +
-        '.html" id="' + speech.id + '">' +
+    var speechHtml = '<a href="/api/schedule/presentation/' + speech.id +
+        '" id="' + speech.id + '">' +
         speech.title + '</a>';
     if (speech.room == "Β1") {
         row.find('.tb1hour').html(speech.time_start + " &#150 " + speech.time_end);
@@ -64,7 +64,7 @@ $(function() {
             var filename = this.id;
             var state = { "hidden": true };
             var title = "Speech: " + this.id;
-            var url = this.id + ".html";
+            var url = "/api/schedule/presentation/" + this.id;
             window.history.pushState(state, title, url);
             hidden = true;
             

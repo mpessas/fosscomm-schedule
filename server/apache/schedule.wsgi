@@ -3,7 +3,7 @@ os.chdir(os.path.dirname(__file__))
 
 import datetime
 import json
-from bottle import Bottle, request, response, abort, debug
+from bottle import Bottle, request, response, abort, debug, view
 app = Bottle()
 debug(True)
 import icalendar
@@ -23,6 +23,21 @@ def get_events():
         doc.append(r)
     response.set_content_type('application/json')
     return json.dumps(doc)
+
+@app.get('/presentation/:pid#[0-9]+#')
+@view('presentation.tpl')
+def view_presentation(pid):
+    ds = DataStore()
+    with ds.open():
+        res = ds.get('id', int(pid))
+    return dict(speaker=res['speaker'],
+                title=res['title'],
+                summary=res['summary'],
+                day = res['day'],
+                start = res['time_start'],
+                end=res['time_end'],
+                room=res['room'],
+    )
 
 @app.get('/fosscomm.ical')
 def get_ical():
