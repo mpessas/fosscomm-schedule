@@ -42,8 +42,8 @@ def view_presentation(pid):
 @app.get('/fosscomm.ical')
 def get_ical():
     """Return an ical with the specified events."""
-    events = request.GET.get('events')
-    if events is None:
+    events = request.GET.get('events', '')
+    if events == '':
         abort(500, "No events specified")
     events = events.split(':')
     for i, event in enumerate(events):
