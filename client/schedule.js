@@ -62,10 +62,9 @@ $(function() {
         if (window.history && window.history.pushState) {
             e.preventDefault()
             var filename = this.id;
-            var state = { hidden: true };
             var title = "Speech: " + this.id;
             var url = "/api/schedule/presentation/" + this.id;
-            window.history.pushState(state, title, url);
+            window.history.pushState({}, title, url);
             
             var data = g_data[this.id - 1];
             $('#res').find('#title').text(data.title);
