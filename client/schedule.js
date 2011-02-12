@@ -62,11 +62,10 @@ $(function() {
         if (window.history && window.history.pushState) {
             e.preventDefault()
             var filename = this.id;
-            var state = { "hidden": true };
+            var state = { hidden: true };
             var title = "Speech: " + this.id;
             var url = "/api/schedule/presentation/" + this.id;
             window.history.pushState(state, title, url);
-            hidden = true;
             
             var data = g_data[this.id - 1];
             $('#res').find('#title').text(data.title);
@@ -82,13 +81,11 @@ $(function() {
 
             // handle back button
             $(window).bind("popstate", function(b) {
-                if (hidden) {
-                    hidden = false;
+                if (document.location.pathname == "/schedule/schedule.html") {
                     $('#res').fadeOut('fast', function() {
                         $('#page1').fadeIn('slow');
                     });
                 } else {
-                    hidden = true;
                     $('#page1').fadeOut('fast', function() {
                         $('#res').fadeIn('fast');
                     });
