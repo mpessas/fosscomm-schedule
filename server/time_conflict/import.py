@@ -26,7 +26,7 @@ def parse_cmd_options(argv):
 def get_events_from_file(filename):
     """Read the events from the specified file.
 
-    Events must bein json format.
+    Events must be in json format.
     """
     with open(filename) as f:
         events = json.load(f)
