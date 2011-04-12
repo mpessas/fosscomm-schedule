@@ -19,8 +19,7 @@ def get_events():
         res = ds.get_all()
     doc = []
     for r in res:
-        del r['_id']            # Don't reveal these
-        doc.append(r)
+        doc.append(json.loads(r))
     response.set_content_type('application/json')
     return json.dumps(doc)
 
