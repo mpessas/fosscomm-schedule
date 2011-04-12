@@ -36,7 +36,7 @@ class RedisStore(object):
         """
         if not isinstance(doc, dict):
             raise TypeError
-        return self._r.hset(self._key, doc["id_"], json.dumps(doc))
+        return self._r.hset(self._key, doc["id"], json.dumps(doc))
 
     def get_by_id(self, id_):
         """Get the object by the id_ attribute."""
@@ -67,7 +67,6 @@ class RedisStore(object):
         Returns a generator.
         """
         sessions = self._r.hgetall(self._key)
-        import pdb; pdb.set_trace();
         for session in sessions.itervalues():
             doc = json.loads(session)
             found = True

@@ -7,12 +7,12 @@ from redisstore import RedisStore
 
 class ObjClass(object):
     def __init__(self, id_, x, y):
-        self._id = id_
+        self.id = id_
         self.x = x
         self.y = y
 
     def as_doc(self):
-        return dict(id_=self._id, x=self.x, y=self.y)
+        return dict(id=self.id, x=self.x, y=self.y)
 
 
 class TestRedisStore(unittest.TestCase):
@@ -47,7 +47,7 @@ class TestRedisStore(unittest.TestCase):
         doc = obj.as_doc()
         self.store.put(doc)
         res = self.store.get('x', 1)
-        self.assertEquals(res['id_'], 1)
+        self.assertEquals(res['id'], 1)
         res = self.store.get('x', 4)
         self.assertTrue(res is None)
 

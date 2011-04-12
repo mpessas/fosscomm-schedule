@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from redistore import RedisStore as DataStore
+from redisstore import RedisStore as DataStore
