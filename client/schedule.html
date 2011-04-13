@@ -4,24 +4,47 @@
     <title>Πρόγραμμα</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="schedule.css" type="text/css" media="screen"/>
-    <script type="text/javascript" src="jquery-1.4.4.js"></script>
-    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>     -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
     <script type="text/javascript" src="schedule.js"></script>
+    <script type="text/javascript">
+    $(function() {
+      $("a#ical").button();
+      $("#schedules").tabs();
+    });
+    </script>
   </head>
+
   <body>
+
+    <a href="https://github.com/mpessas/fosscomm-schedule">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub">
+    </a>
+
     <header>
       <h1><a href="http://patras.fossocmm.gr">FOSSCOMM 2011 @ Patras</a></h1>
     </header>
+
     <h2>Πρόγραμμα</h2>
+
     <p id="warning">Είναι απαραίτητη η ενεργοποίηση της javascript για την εφαρμογή.</p>
+
     <div id="page1">
       <p>
-        <a href="#" id="day1">Σάββατο</a>
+        <a href="#" id="day1">Σάββατο</a> |
         <a href="#" id="day2">Κυριακή</a>
       </p>
+
       <div id="schedules">
+        <ul>
+          <li><a href="#tab-1">Αίθουσα BA</a></li>
+          <li><a href="#tab-2">Αίθουσα B4</a></li>
+          <li><a href="#tab-3">Αίθουσα B3</a></li>
+        </ul>
+
+        <div id="tab-1">
         <table class="schedule" id="schedule_b1">
-          <caption>Αίθουσα Β1</caption>
           <thead>
             <tr>
               <th class="hour">Ώρα</th>
@@ -38,8 +61,10 @@
               <td class="center"><span class="tb1attend"></span></td>
           </tbody>
         </table>
+        </div>
+
+        <div id="tab-2">
         <table class="schedule" id="schedule_b4">
-          <caption>Αίθουσα Β4</caption>
           <thead>
             <tr>
               <th class="hour">Ώρα</th>
@@ -56,8 +81,15 @@
               <td class="center"><span class="tb4attend"></span></td>
           </tbody>
         </table>
+        </div>
       </div>
-      <p><a id="ical" href="/api/schedule/fosscomm.ical">Δημιουργία ical</a></p>
+
+      <br />
+
+      <p>
+        <a id="ical" href="/api/schedule/fosscomm.ical">Δημιουργία ical</a>
+      </p>
+
     </div>
     <div id="res">
       <h2 id="title"></h2>
@@ -69,8 +101,7 @@
     </div>
     <footer>
       <ul>
-        <li><a href="http://www.patras-lug.gr/">&copy Patras Linux User Group</a></li>
-        <li><a href="http://github.com/mpessas/">Code on Github</a></li>
+        <li>&copy <a href="http://www.patras-lug.gr/">Patras Linux User Group</a></li>
       </ul>
     </footer>
   </body>

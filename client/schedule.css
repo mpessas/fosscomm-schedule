@@ -1,5 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Droid+Serif);
-@import url(http://fonts.googleapis.com/css?family=Ubuntu&subset=greek,latin);
+@import url(http://patras.fosscomm.gr/wp-content/themes/undedicated/style.css);
 
 header, footer {
     display: block;
@@ -10,24 +9,12 @@ html {
     text-align: center;
     margin: 0 auto;
     color: #222222;
-    font-size: 12px;
     height: 100%;
-    font-family: 'Ubuntu', serif;
-}
-
-header h1 {
-    font-size: 4em;
-    font-weight: 800;
-    text-shadow: 8px 8px 8px #ddd;
 }
 
 header h1 a {
     text-decoration: none;
     color: #222222;
-}
-
-h2 {
-    font-size: 2.5em;
 }
 
 footer {
@@ -48,30 +35,15 @@ footer ul {
 }
 
 footer ul li {
-    display: block;
-    list-decoration: none;
+    display: inline;
+	list-style-type: none;
+	padding-right: 20px;
     padding: 0;
     margin: 0;
-    font-variant:small-caps;
-}
-
-footer ul li a {
-    padding-left: 1em;
-    font-size: 1.1em;
-    letter-spacing: 2px;
 }
 
 #wrap {
     min-height: 4em;
-}
-
-#schedules {
-    -moz-column-count: 2;
-    -moz-column-gap: 10em;
-    -webkit-column-count: 2;
-    -webkit-column-gap: 10em;
-    column-count: 2;
-    column-gap: 10em;
 }
 
 table {
@@ -90,11 +62,6 @@ caption {
 thead tr {
     border-bottom: 1px solid #444444;
     margin: 0;
-}
-
-th {
-    font-size: 1.4em;
-    letter-spacing: 0.1em;
 }
 
 th.hour, td.hour {
