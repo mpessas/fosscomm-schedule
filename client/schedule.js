@@ -114,6 +114,33 @@ $(function() {
         window.open('/api/schedule/fosscomm.ical?events=' + checked.join(':'));
     });
 
+    $('#register_form').submit(function(e) {
+        var checked = [];
+        var j = 0;
+        for (var i in g_selection) {
+            if (g_selection[i]) {
+                checked[j] = parseInt(i) + 1;
+                j++;
+            }
+        }
+        console.log(checked);
+        // Send selection to server
+        $.ajax({
+            type: 'POST',
+            url: '/api/schedule/register/',
+            timeout: 10000,
+            dataType: 'json',
+            data: {'events': checked.join(':'), 'jid_input': $('#jid_input').val()},
+            error: function(xhr, status, error) {
+                alert(status + ": " + error);
+            },
+            success: function(data) {
+                alert("Registered successfully");
+            }
+        });
+        return false;
+    });
+
     // disable events on check/ enable on uncheck
     $('input').live('click', function(e) {
         // Add/remove from selection

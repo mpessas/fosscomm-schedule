@@ -43,13 +43,13 @@ def get_ical():
     """Return an ical with the specified events."""
     events = request.GET.get('events', '')
     if events == '':
-        abort(500, "No events specified")
+        abort(400, "No events specified")
     events = events.split(':')
     for i, event in enumerate(events):
         try:
             events[i] = int(event)
         except ValueError:
-            abort(500, "Malformed query string provided")
+            abort(400, "Malformed query string provided")
     ds = DataStore()
     with ds.open():
         res = ds.filter(id={'$in': events})
@@ -68,6 +68,27 @@ def get_ical():
         cal.add_component(event)
     response.set_content_type('text/calendar')
     return cal.as_string()
+
+@app.post('/register/')
+def register():
+    jid = request.POST.get("jid_input")
+    if not jid:
+        abort(400, "No JID provided")
+    events = request.POST.get("events").split(':')
+    if events == '':
+        abort(400, "No events specified")
+    for i, event in enumerate(events):
+        try:
+            events[i] = int(event)
+        except ValueError:
+            abort(400, "Malformed query string provided")
+    ds = DataStore()
+    with ds.open():
+        for event in events:
+            key = "fosscomm2011:session:%d" % event
+            print key
+            ds.add_to_set(key, jid)
+    return json.dumps(True)
 
 def event_time_to_datetime(e_day, e_time):
     """Convert day/time of the event to an datetime object."""

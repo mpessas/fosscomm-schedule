@@ -87,7 +87,14 @@
       <br />
 
       <p>
-        <a id="ical" href="/api/schedule/fosscomm.ical">Δημιουργία ical</a>
+        <a id="ical" href="/api/schedule/fosscomm.ical">Λήψη ical</a>
+        <form method="post" action="/api/schedule/register/" id="register_form">
+          <label for="jid_input">
+            Να ειδοποιούμαι για τις επιλεγμένες ομιλίες μέσω XMPP στο JID:
+          </label>
+          <input type="text" id="jid_input" name="jid_input" />
+          <input type="submit" value="OK" />
+        </form>
       </p>
 
     </div>
