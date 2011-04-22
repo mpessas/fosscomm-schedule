@@ -7,29 +7,44 @@ function get_template(row, speech, selection) {
         row.find('.tb1hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb1speech').html(speechHtml);
         row.find('.tb1speaker').text(speech.speaker);
-        var chbox = "<input type='checkbox' id='chbox" + speech.id + 
-            "' value='" + speech.id + "' " + checked +  "/>Ναι";
-        row.find('.tb1attend').html(chbox);
+        if (speech.id < 69) {
+            var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+                "' value='" + speech.id + "' " + checked +  "/>Ναι";
+            row.find('.tb1attend').html(chbox);
+        }
     } else if (speech.room == "Β4") {
         row.find('.tb4hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb4speech').html(speechHtml);
         row.find('.tb4speaker').text(speech.speaker);
-        var chbox = "<input type='checkbox' id='chbox" + speech.id + 
-            "' value='" + speech.id + "' " + checked + "/>Ναι";
-        row.find('.tb4attend').html(chbox);
+        if (speech.id < 69) {
+            var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+                "' value='" + speech.id + "' " + checked + "/>Ναι";
+            row.find('.tb4attend').html(chbox);
+        }
     } else if (speech.room == "Β3") {
         row.find('.tb3hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb3speech').html(speechHtml);
         row.find('.tb3speaker').text(speech.speaker);
-        var chbox = "<input type='checkbox' id='chbox" + speech.id + 
-            "' value='" + speech.id + "' " + checked + "/>Ναι";
-        row.find('.tb3attend').html(chbox);
+        if (speech.id < 69) {
+            var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+                "' value='" + speech.id + "' " + checked + "/>Ναι";
+            row.find('.tb3attend').html(chbox);
+        }
+    } else if (speech.room == "ΥΚ") {
+        row.find('.tykhour').html(speech.time_start + " &#150 " + speech.time_end);
+        row.find('.tykspeech').html(speechHtml);
+        row.find('.tykspeaker').text(speech.speaker);
+        if (speech.id < 69) {
+            var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+                "' value='" + speech.id + "' " + checked + "/>Ναι";
+            row.find('.tykattend').html(chbox);
+        }
     }
     return row;
 }
 
 function populate_table(day, data, selection) {
-    $('table tbody').find('tr').not('.b1template, .b4template, .b3template').remove();
+    $('table tbody').find('tr').not('.b1template, .b4template, .b3template, .yktemplate').remove();
     for (var i in data) {
         if (data[i].day == day) {
             if (data[i].room == "ΒΑ") {
@@ -38,19 +53,17 @@ function populate_table(day, data, selection) {
             } else if (data[i].room == "Β4") {
                 var newRow = $('.b4template').clone().removeClass('b4template');
                 get_template(newRow, data[i], selection).appendTo('table#schedule_b4');
-                console.log($("#schedule_b4"))
             } else if (data[i].room == "Β3") {
                 var newRow = $('.b3template').clone().removeClass('b3template');
                 get_template(newRow, data[i], selection).appendTo('table#schedule_b3');
-                console.log($("#schedule_b3"))
+            } else if (data[i].room == "ΥΚ") {
+                var newRow = $('.yktemplate').clone().removeClass('yktemplate');
+                get_template(newRow, data[i], selection).appendTo('table#schedule_yk');
             } else {
                 console.log(data[i].room);
             }
         }
     }
-    console.log($("#schedule_b1"))
-    console.log($("#schedule_b4"))
-    console.log($("#schedule_b3"))
 }
 
 $(function() {
@@ -82,12 +95,17 @@ $(function() {
             var title = "Speech: " + this.id;
             var url = "/api/schedule/presentation/" + this.id;
             window.history.pushState({}, title, url);
-            
-            var data = g_data[this.id - 1];
+
+            for (var i in g_data) {
+                if (g_data[i]['id'] == this.id) {
+                    var data = g_data[i];
+                    break;
+                }
+            }
             $('#res').find('#title').text(data.title);
             $('#res').find('#summary').text(data.summary);
             $('#res').find('#speaker').text(data.speaker);
-            $('#res').find('#details').html(data.day + 
+            $('#res').find('#details').html("Ημέρα " + data.day + 
                                             ", " + data.time_start +
                                             " &#150 " + data.time_end +
                                             " @ " + data.room);

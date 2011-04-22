@@ -38,9 +38,10 @@
 
       <div id="schedules">
         <ul>
-          <li><a href="#tab-1">Αίθουσα BA</a></li>
-          <li><a href="#tab-2">Αίθουσα B4</a></li>
-          <li><a href="#tab-3">Αίθουσα B3</a></li>
+          <li><a href="#tab-1">FOSSTalk Main (BA)</a></li>
+          <li><a href="#tab-2">FOSSTalk1 (B4)</a></li>
+          <li><a href="#tab-3">FOSSTALK2 (B3)</a></li>
+          <li><a href="#tab-4">FOSSWork (ΥΚ)</a></li>
         </ul>
 
         <div id="tab-1">
@@ -103,6 +104,25 @@
         </table>
         </div>
 
+        <div id="tab-4">
+        <table class="schedule" id="schedule_yk">
+          <thead>
+            <tr>
+              <th class="hour">Ώρα</th>
+              <th class="speech">Ομιλία</th>
+              <th class="speaker">Ομιλητής</th>
+              <th class="attend">Ενδιαφέρομαι</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="yktemplate">
+              <td><span class="tykhour"></span></td>
+              <td><span class="tykspeech"></span></td>
+              <td><span class="tykspeaker"></span></td>
+              <td class="center"><span class="tykattend"></span></td>
+          </tbody>
+        </table>
+        </div>
       </div>
 
       <br />
@@ -114,7 +134,7 @@
             Να ειδοποιούμαι για τις επιλεγμένες ομιλίες μέσω XMPP στο JID:
           </label>
           <input type="text" id="jid_input" name="jid_input" />
-          <input type="submit" value="OK" />
+          <input type="submit" id="jidbutton" value="OK" />
         </form>
       </p>
 

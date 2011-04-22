@@ -13,8 +13,9 @@ from errors import NotReadyError
 import datastore
 
 
-INTERVAL = 30
+INTERVAL = 15
 _log = logging.getLogger('')
+# _log.setLevel(logging.DEBUG)
 
 
 class Node(object):
@@ -126,7 +127,6 @@ class Event(object):
             if args[0]._is_ready():  # args[0] is always self
                 f(*args, **kwargs)
             else:
-                import pdb; pdb.set_trace();
                 raise NotReadyError
         new_f.__name__ = f.__name__
         new_f.__doc__ = f.__doc__

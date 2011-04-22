@@ -14,6 +14,8 @@ from datastore import DataStore
 def cmp_events(e1, e2):
     if e1['day'] < e2['day']:
         return -1
+    elif e1['day'] > e2['day']:
+        return 1
     e1_starts = e1['time_start'].split(':')
     e1_hour, e1_minute = int(e1_starts[0]), int(e1_starts[1])
     e2_starts = e2['time_start'].split(':')
@@ -40,10 +42,7 @@ def get_events():
     doc = []
     for r in res:
         doc.append(json.loads(r))
-    try:
-        doc.sort(cmp_events)
-    except Exception, e:
-        print e
+    doc.sort(cmp_events)
     response.set_content_type('application/json')
     return json.dumps(doc)
 
@@ -76,10 +75,11 @@ def get_ical():
             abort(400, "Malformed query string provided")
     ds = DataStore()
     with ds.open():
-        res = ds.filter(id={'$in': events})
+        res = ds.filter('id', events)
     cal = icalendar.Calendar()
     cal.add('version', '2.0')
     for r in res:
+        print r['id']
         event = icalendar.Event()
         event['uid'] = "%s@patras.fosscomm.gr" % r['id']
         summary = "%s, %s" % (r['title'], r['speaker'])

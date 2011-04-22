@@ -66,7 +66,7 @@ class RedisStore(object):
         """
         return self._r.hvals(self._key)
 
-    def filter(self, **kwargs):
+    def filter(self, name, array):
         """Get items that satisfy the given criteria.
 
         Returns a generator.
@@ -74,9 +74,5 @@ class RedisStore(object):
         sessions = self._r.hgetall(self._key)
         for session in sessions.itervalues():
             doc = json.loads(session)
-            found = True
-            for key, val in kwargs.iteritems():
-                if doc[key] != val:
-                    found = False
-            if found:
+            if doc['id'] in array:
                 yield doc
