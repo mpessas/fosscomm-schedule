@@ -36,7 +36,7 @@ class RedisStore(object):
         """
         if not isinstance(doc, dict):
             raise TypeError
-        return self._r.hset(key, doc["id"], json.dumps(doc))
+        return self._r.hset(self._key, doc["id"], json.dumps(doc))
 
     def add_to_set(self, key, value):
         """Add the value to set identified by key."""

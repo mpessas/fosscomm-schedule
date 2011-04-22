@@ -113,8 +113,12 @@ class Event(object):
         @returns True if all attributes are set
                  False else
         """
-        return all(val for (key, val) in self._attrs.iteritems()
-                   if key not in self._optional_attrs)
+        res = True
+        for (key, val) in self._attrs.iteritems():
+            if key not in self._optional_attrs:
+                if val is None:
+                    res = False
+        return res
 
     def ready_required(f):
         """Decorator to assert ready-ness of the instance."""
@@ -122,6 +126,7 @@ class Event(object):
             if args[0]._is_ready():  # args[0] is always self
                 f(*args, **kwargs)
             else:
+                import pdb; pdb.set_trace();
                 raise NotReadyError
         new_f.__name__ = f.__name__
         new_f.__doc__ = f.__doc__

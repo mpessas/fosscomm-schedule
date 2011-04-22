@@ -3,7 +3,7 @@ function get_template(row, speech, selection) {
     var speechHtml = '<a href="/api/schedule/presentation/' + speech.id +
         '" id="' + speech.id + '">' +
         speech.title + '</a>';
-    if (speech.room == "Β1") {
+    if (speech.room == "ΒΑ") {
         row.find('.tb1hour').html(speech.time_start + " &#150 " + speech.time_end);
         row.find('.tb1speech').html(speechHtml);
         row.find('.tb1speaker').text(speech.speaker);
@@ -17,23 +17,40 @@ function get_template(row, speech, selection) {
         var chbox = "<input type='checkbox' id='chbox" + speech.id + 
             "' value='" + speech.id + "' " + checked + "/>Ναι";
         row.find('.tb4attend').html(chbox);
+    } else if (speech.room == "Β3") {
+        row.find('.tb3hour').html(speech.time_start + " &#150 " + speech.time_end);
+        row.find('.tb3speech').html(speechHtml);
+        row.find('.tb3speaker').text(speech.speaker);
+        var chbox = "<input type='checkbox' id='chbox" + speech.id + 
+            "' value='" + speech.id + "' " + checked + "/>Ναι";
+        row.find('.tb3attend').html(chbox);
     }
     return row;
 }
 
 function populate_table(day, data, selection) {
-    $('table tbody').find('tr').not('.b1template, .b4template').remove();
+    $('table tbody').find('tr').not('.b1template, .b4template, .b3template').remove();
     for (var i in data) {
         if (data[i].day == day) {
-            if (data[i].room == "Β1") {
+            if (data[i].room == "ΒΑ") {
                 var newRow = $('.b1template').clone().removeClass('b1template');
                 get_template(newRow, data[i], selection).appendTo('table#schedule_b1');
             } else if (data[i].room == "Β4") {
                 var newRow = $('.b4template').clone().removeClass('b4template');
                 get_template(newRow, data[i], selection).appendTo('table#schedule_b4');
+                console.log($("#schedule_b4"))
+            } else if (data[i].room == "Β3") {
+                var newRow = $('.b3template').clone().removeClass('b3template');
+                get_template(newRow, data[i], selection).appendTo('table#schedule_b3');
+                console.log($("#schedule_b3"))
+            } else {
+                console.log(data[i].room);
             }
         }
     }
+    console.log($("#schedule_b1"))
+    console.log($("#schedule_b4"))
+    console.log($("#schedule_b3"))
 }
 
 $(function() {

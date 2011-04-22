@@ -11,6 +11,26 @@ import icalendar
 from datastore import DataStore
 
 
+def cmp_events(e1, e2):
+    if e1['day'] < e2['day']:
+        return -1
+    e1_starts = e1['time_start'].split(':')
+    e1_hour, e1_minute = int(e1_starts[0]), int(e1_starts[1])
+    e2_starts = e2['time_start'].split(':')
+    e2_hour, e2_minute = int(e2_starts[0]), int(e2_starts[1])
+    if e1_hour < e2_hour:
+        return -1
+    elif e1_hour == e2_hour:
+        if e1_minute < e2_minute:
+            return -1
+        elif e1_minute == e2_minute:
+            return 0
+        else:
+            return 1
+    else:
+        return 1
+
+
 @app.get('/')
 def get_events():
     """Return a list of all events."""
@@ -20,6 +40,10 @@ def get_events():
     doc = []
     for r in res:
         doc.append(json.loads(r))
+    try:
+        doc.sort(cmp_events)
+    except Exception, e:
+        print e
     response.set_content_type('application/json')
     return json.dumps(doc)
 

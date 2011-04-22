@@ -29,7 +29,7 @@ def get_events_from_file(filename):
     Events must be in json format.
     """
     with open(filename) as f:
-        events = json.load(f)
+        events = json.load(f, encoding='UTF-8')
     event_node_list = []
     for e in events:
         event_node_list.append(graph.Node(graph.Event(e['id'], **e)))
