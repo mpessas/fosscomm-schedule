@@ -79,7 +79,6 @@ def get_ical():
     cal = icalendar.Calendar()
     cal.add('version', '2.0')
     for r in res:
-        print r['id']
         event = icalendar.Event()
         event['uid'] = "%s@patras.fosscomm.gr" % r['id']
         summary = "%s, %s" % (r['title'], r['speaker'])
@@ -110,7 +109,6 @@ def register():
     with ds.open():
         for event in events:
             key = "fosscomm2011:session:%d" % event
-            print key
             ds.add_to_set(key, jid)
     return json.dumps(True)
 
